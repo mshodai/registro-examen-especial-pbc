@@ -1,6 +1,6 @@
 # Modelo de datos de entrada
 
-Este documento define el JSON que describe **un examen especial** (Ley 10/2010 y RD 304/2014) **o una evaluación de las operaciones o actividades de un cliente** (AMLR, art. 69.2) en la que puede haber participado un sistema de IA. Solo describe la entrada. Todavía no hay especificación del cálculo ni código.
+Este documento define el JSON que describe **un examen especial** (Ley 10/2010 y RD 304/2014) **o una evaluación de las operaciones o actividades de un cliente** (AMLR, art. 69.2) en la que puede haber participado un sistema de IA. Un registro puede ser también **una alerta revisada y descartada sin abrir examen especial** (§10): en España no genera expediente, y en el AMLR puede ser, según la lectura, una evaluación del art. 69.2 que hay que registrar ([R-6](#r-6)). Solo describe la entrada. Todavía no hay especificación del cálculo ni código.
 
 Siglas y fuentes (detalle y huellas en [`fuentes/FUENTES.md`](fuentes/FUENTES.md)):
 
@@ -14,8 +14,8 @@ Convenciones:
 
 - Las citas van entre comillas «» y son literales. Las del borrador de la Comisión están en inglés, el único idioma en que se publicó, con una traducción propia entre corchetes.
 - **[Decisión propia]** marca lo que no sale de los textos, sino del diseño de este proyecto.
-- Los casos que la norma no resuelve (R-1 a R-10) están en el §13. El modelo no los decide: recoge los hechos que hacen falta para aplicar cada lectura.
-- Los términos siguen a cada texto: «examen especial», «Servicio Ejecutivo de la Comisión» y «comunicación por indicio» en la Ley y el RD; «evaluación», «UIF» y «comunicación de sospechas» en el AMLR. El modelo usa `expediente` y `decision_comunicacion` para los dos. **[Decisión propia]**
+- Los casos que la norma no resuelve (R-1 a R-10) están en el §14. El modelo no los decide: recoge los hechos que hacen falta para aplicar cada lectura.
+- Los términos siguen a cada texto: «examen especial», «Servicio Ejecutivo de la Comisión» y «comunicación por indicio» en la Ley y el RD; «evaluación», «UIF» y «comunicación de sospechas» en el AMLR. El modelo usa `expediente` y `decision_comunicacion` para los dos, y `alerta_descartada` para la alerta que no llegó a examen. **[Decisión propia]**
 
 ---
 
@@ -26,21 +26,23 @@ Convenciones:
 1. **La entrada recoge hechos, no conclusiones.** **[Decisión propia]** El JSON dice qué se examinó, qué fuentes se consultaron, qué se concluyó, quién decidió y qué devolvió el sistema de IA. No dice si el registro cumple, si la decisión se tomó «sin demora» ni si la intervención humana fue «significativa»: eso depende del régimen y de la lectura.
 2. **El régimen no forma parte de la entrada.** **[Decisión propia]** El régimen es un parámetro del cálculo. El mismo JSON se lee con la Ley y el RD y con el AMLR. Un campo `regimen` obligaría a quien rellena la entrada a decidir si el art. 25 del RD sigue aplicándose desde el 10 de julio de 2027 ([R-3](#r-3)), que ningún texto resuelve.
 3. **La validación no depende del régimen.** **[Decisión propia]** Un hecho que un régimen no usa no es un error de entrada. Por ejemplo, la referencia a la copia de la comunicación (solo AMLR) en un examen de 2026, o los votos de un órgano colegiado (solo RD) en una evaluación de 2028.
-4. **Los casos no resueltos se documentan, no se resuelven en silencio.** Cuando un texto admite dos lecturas, el modelo recoge los hechos que distinguen una de otra (§13).
+4. **Los casos no resueltos se documentan, no se resuelven en silencio.** Cuando un texto admite dos lecturas, el modelo recoge los hechos que distinguen una de otra (§14).
 
 ### 0.2. Las tres reglas propias de este proyecto
 
 Estas reglas son **[Decisión propia]** y ningún cambio del modelo puede saltárselas.
 
-1. **Cada campo del registro se cita a su artículo. Si un campo no sale de la norma, no entra.** Un campo entra si un artículo exige que conste en el registro o si hace falta para aplicar un artículo a este examen (por ejemplo, una fecha sin la que no se puede comprobar un «sin demora»). Las tablas de cada sección dan la cita de cada campo. Los campos puramente técnicos (`version_modelo`, los `id` y las referencias entre objetos) están marcados como decisión propia y no añaden hechos. Lo que se ha dejado fuera, y por qué, está en el §11.
-2. **Del sistema de IA no se modela nada interno: ni variables, ni umbrales, ni reglas, ni tipos de alerta.** El sistema es una caja cerrada. Su salida es un dato más del registro: una cadena que se guarda tal como la produjo el sistema y que el modelo no interpreta (§9). El modelo tampoco clasifica el sistema: no dice si es de alto riesgo según el AI Act ni si cumple la definición de su art. 3, punto 1.
+1. **Cada campo del registro se cita a su artículo. Si un campo no sale de la norma, no entra.** Un campo entra si un artículo exige que conste en el registro o si hace falta para aplicar un artículo a este examen (por ejemplo, una fecha sin la que no se puede comprobar un «sin demora»). Las tablas de cada sección dan la cita de cada campo. Los campos puramente técnicos (`version_modelo`, los `id` y las referencias entre objetos) están marcados como decisión propia y no añaden hechos. Lo que se ha dejado fuera, y por qué, está en el §12.
+2. **Del sistema de IA no se modela nada interno: ni variables, ni umbrales, ni reglas, ni tipos de alerta.** El sistema es una caja cerrada. Su salida es un dato más del registro: una cadena que se guarda tal como la produjo el sistema y que el modelo no interpreta (§9). El modelo tampoco clasifica el sistema: no dice si es de alto riesgo según el AI Act ni deduce de su funcionamiento si cumple la definición de su art. 3, punto 1. Lo que sí recoge es lo que **declara la entidad** sobre esa definición (§9.2): un dato declarado, no una inferencia.
 3. **Los ejemplos usan motivos genéricos e inventados.** Ningún ejemplo de este repositorio describe una tipología real de blanqueo, un indicador de riesgo concreto ni un caso real. Las descripciones son del tipo «Circunstancia de ejemplo 1 (motivo inventado)», y las salidas del sistema, cadenas opacas como `"SALIDA-EJEMPLO-1"`, que no son puntuaciones ni etiquetas de un sistema real.
 
 ---
 
-## 1. Ejemplo completo
+## 1. Ejemplos
 
-Un examen especial abierto en septiembre de 2027, después de la fecha de aplicación del AMLR: con la entrada así, se puede leer con los dos regímenes ([R-3](#r-3)). Lo abre una alerta en la que participó un sistema; otro sistema interviene en el análisis; decide el órgano de control interno por mayoría.
+### 1.1. Examen especial
+
+Un examen especial abierto en septiembre de 2027, después de la fecha de aplicación del AMLR: con la entrada así, se puede leer con los dos regímenes ([R-3](#r-3)). Lo abre una alerta en la que participó un sistema que la entidad declara que no es un sistema de IA; otro sistema, que declara que sí lo es, interviene en el análisis; decide el órgano de control interno por mayoría.
 
 ```json
 {
@@ -51,24 +53,50 @@ Un examen especial abierto en septiembre de 2027, después de la fecha de aplica
       { "anio": 2026, "numero": 18450 }
     ]
   },
+  "personas": [
+    {
+      "id": "P-1",
+      "cargos": [
+        "representante_servicio_ejecutivo",
+        "responsable_cumplimiento_normativo",
+        "miembro_organo_control_interno"
+      ]
+    },
+    { "id": "P-2", "cargos": ["miembro_organo_control_interno"] },
+    { "id": "P-3", "cargos": ["miembro_organo_control_interno"] },
+    { "id": "P-4", "cargos": ["otro"] }
+  ],
+  "sistemas": [
+    { "id": "SIS-A", "declaracion_sistema_ia": "no" },
+    { "id": "SIS-B", "declaracion_sistema_ia": "si" }
+  ],
+  "participaciones_ia": [
+    {
+      "id": "IA-1",
+      "sistema": "SIS-A",
+      "momento": "generacion_alerta",
+      "fecha": "2027-09-02",
+      "salida": "SALIDA-EJEMPLO-1",
+      "intervencion_humana": [
+        { "persona": "P-4", "fecha": "2027-09-06", "descripcion": "Revisión de la alerta; se decide abrir el examen especial" }
+      ]
+    },
+    {
+      "id": "IA-2",
+      "sistema": "SIS-B",
+      "momento": "analisis",
+      "fecha": "2027-09-10",
+      "salida": "SALIDA-EJEMPLO-2",
+      "intervencion_humana": [
+        { "persona": "P-4", "fecha": "2027-09-12", "descripcion": "Contraste de la salida con la fuente F-1" }
+      ]
+    }
+  ],
   "expediente": {
     "id": "EXP-0001",
     "fecha_apertura": "2027-09-06",
     "fecha_fin_analisis_tecnico": "2027-09-24",
     "fecha_cierre": "2027-09-29",
-    "personas": [
-      {
-        "id": "P-1",
-        "cargos": [
-          "representante_servicio_ejecutivo",
-          "responsable_cumplimiento_normativo",
-          "miembro_organo_control_interno"
-        ]
-      },
-      { "id": "P-2", "cargos": ["miembro_organo_control_interno"] },
-      { "id": "P-3", "cargos": ["miembro_organo_control_interno"] },
-      { "id": "P-4", "cargos": ["otro"] }
-    ],
     "origen": {
       "tipo": "alerta",
       "descripcion": "Alerta de ejemplo A sobre la operativa de un cliente ficticio (motivo inventado)",
@@ -137,29 +165,54 @@ Un examen especial abierto en septiembre de 2027, después de la fecha de aplica
         "referencia_copia": "DOC-EJEMPLO-0001"
       },
       "fecha_puesta_en_conocimiento_comunicante": null
-    },
-    "participaciones_ia": [
-      {
-        "id": "IA-1",
-        "sistema": "SIS-A",
-        "momento": "generacion_alerta",
-        "fecha": "2027-09-02",
-        "salida": "SALIDA-EJEMPLO-1",
-        "intervencion_humana": [
-          { "persona": "P-4", "fecha": "2027-09-06", "descripcion": "Revisión de la alerta; se decide abrir el examen especial" }
-        ]
-      },
-      {
-        "id": "IA-2",
-        "sistema": "SIS-B",
-        "momento": "analisis",
-        "fecha": "2027-09-10",
-        "salida": "SALIDA-EJEMPLO-2",
-        "intervencion_humana": [
-          { "persona": "P-4", "fecha": "2027-09-12", "descripcion": "Contraste de la salida con la fuente F-1" }
-        ]
-      }
+    }
+  },
+  "alerta_descartada": null
+}
+```
+
+### 1.2. Alerta revisada y descartada
+
+Una alerta de octubre de 2027 que se revisa y se descarta sin abrir examen especial (§10). Con la Ley y el RD no hay expediente; con el AMLR, la lectura AD-2 de [R-6](#r-6) la trata como una evaluación que hay que registrar.
+
+```json
+{
+  "version_modelo": 1,
+  "sujeto": {
+    "actividad": "otra",
+    "operaciones_anuales": [
+      { "anio": 2026, "numero": 18450 }
     ]
+  },
+  "personas": [
+    { "id": "P-4", "cargos": ["otro"] }
+  ],
+  "sistemas": [
+    { "id": "SIS-A", "declaracion_sistema_ia": "no" }
+  ],
+  "participaciones_ia": [
+    {
+      "id": "IA-1",
+      "sistema": "SIS-A",
+      "momento": "generacion_alerta",
+      "fecha": "2027-10-04",
+      "salida": "SALIDA-EJEMPLO-3",
+      "intervencion_humana": []
+    }
+  ],
+  "expediente": null,
+  "alerta_descartada": {
+    "id": "ALE-0001",
+    "participaciones_ia": ["IA-1"],
+    "descripcion_operativa": "Operación de ejemplo de un cliente ficticio (motivo inventado)",
+    "revision": { "persona": "P-4", "fecha": "2027-10-05" },
+    "fuentes": [
+      { "id": "F-1", "descripcion": "Expediente de diligencia debida del cliente", "ambito": "sujeto_obligado" }
+    ],
+    "circunstancias_consideradas": [
+      { "id": "C-1", "descripcion": "Circunstancia de ejemplo 1 (motivo inventado)", "fuentes": ["F-1"], "participaciones_ia": ["IA-1"] }
+    ],
+    "resultado": "Resultado de ejemplo: la información del cliente explica la operación y no procede examen especial (motivo inventado)"
   }
 }
 ```
@@ -172,15 +225,21 @@ Un examen especial abierto en septiembre de 2027, después de la fecha de aplica
 |---|---|---|---|
 | `version_modelo` | entero | sí | Versión de este esquema. Es `1`. **[Decisión propia]** |
 | `sujeto` | objeto | sí | Hechos del sujeto obligado que no son del examen, pero de los que depende aplicarle la norma. Ver §2.1. |
-| `expediente` | objeto | sí | El examen o la evaluación. Ver §3 a §9. |
+| `personas` | lista | sí | Las personas que deciden, votan, revisan o intervienen sobre la salida de un sistema. Ver §2.2. |
+| `sistemas` | lista | sí | Los sistemas que participan en el registro y lo que declara la entidad sobre cada uno. Ver §9.2. Puede estar vacía. |
+| `participaciones_ia` | lista | sí | Cada uso de la salida de un sistema. Ver §9. Puede estar vacía. |
+| `expediente` | objeto \| `null` | sí | El examen especial o la evaluación. Ver §3 a §8. |
+| `alerta_descartada` | objeto \| `null` | sí | La alerta revisada y descartada sin abrir examen especial. Ver §10. |
 
-No hay campo de régimen (§0.1, principio 2). Un JSON con `regimen`, o con cualquier otro campo que el modelo no define, es un error de validación (§12).
+**Uno y solo uno de `expediente` y `alerta_descartada` es un objeto; el otro es `null`.** **[Decisión propia]** No hay un campo que diga el tipo de registro: lo dice cuál de los dos está relleno, y un campo más podría contradecirlo. `personas`, `sistemas` y `participaciones_ia` están en el primer nivel porque los usan las dos formas del registro.
+
+No hay campo de régimen (§0.1, principio 2). Un JSON con `regimen`, o con cualquier otro campo que el modelo no define, es un error de validación (§13).
 
 Todas las fechas son de día, en la forma `AAAA-MM-DD`, sin hora ni zona horaria. **[Decisión propia]**: ninguno de los textos fija por horas los plazos de este registro («sin demora», RD, art. 25.2; «sin dilación», Ley, art. 18.2; «sin demora», AMLR, art. 69.1).
 
-**Un JSON, un expediente.** **[Decisión propia]** El RD pide el registro «para cada expediente de examen especial realizado» (art. 25.3), y el AMLR, «un registro de la evaluación realizada» (art. 77.1.b). El registro cronológico de todos los expedientes (RD, art. 25.3: «por orden cronológico») se forma con varios JSON ordenados por `fecha_apertura`. Este modelo no lo representa.
+**Un JSON, un registro.** **[Decisión propia]** El RD pide el registro «para cada expediente de examen especial realizado» (art. 25.3), y el AMLR, «un registro de la evaluación realizada» (art. 77.1.b). El registro cronológico de todos los expedientes (RD, art. 25.3: «por orden cronológico») se forma con varios JSON ordenados por `fecha_apertura`. Este modelo no lo representa.
 
-**Solo expedientes concluidos.** **[Decisión propia]** La entrada describe un examen con conclusión y decisión. Un examen en curso todavía no tiene los datos que exigen el RD, art. 25.3, y el AMLR, art. 77.1.b («los resultados de dicha evaluación»). Si la evaluación terminó sin abrir un examen especial, ver [R-6](#r-6).
+**Solo expedientes concluidos.** **[Decisión propia]** Un `expediente` describe un examen con conclusión y decisión. Un examen en curso todavía no tiene los datos que exigen el RD, art. 25.3, y el AMLR, art. 77.1.b («los resultados de dicha evaluación»). La alerta que se revisa y no llega a examen es la otra forma del registro (§10).
 
 ### 2.1. `sujeto`
 
@@ -191,30 +250,16 @@ Todas las fechas son de día, en la forma `AAAA-MM-DD`, sin hora ni zona horaria
 
 **Por qué una lista y no un número.** El RD no dice qué año cuenta ni cómo se cuentan las operaciones ([R-7](#r-7)). Con una lista, la entrada recoge los años que la entidad conoce y cada lectura elige el suyo. **[Decisión propia]**
 
-**Qué no dice el dato.** El modelo no recoge si la entidad tiene implantados «modelos automatizados de generación y priorización de alertas». Esa sería una afirmación sobre la configuración interna de sus sistemas (§0.2, regla 2). Lo que sí recoge es si en este examen participó un sistema en la generación o la priorización de la alerta (§9).
+**Qué no dice el dato.** El modelo no recoge si la entidad tiene implantados «modelos automatizados de generación y priorización de alertas». Esa sería una afirmación sobre la configuración interna de sus sistemas (§0.2, regla 2). Lo que sí recoge es si en este registro participó un sistema en la generación o la priorización de la alerta (§9).
 
----
+### 2.2. `personas[]`
 
-## 3. Expediente: identificación, fechas y personas
-
-| Campo | Tipo | Obligatorio | Descripción y cita |
-|---|---|---|---|
-| `id` | cadena | sí | Identificador del expediente. **[Decisión propia]**; el RD habla de «cada expediente de examen especial» (art. 25.3). |
-| `fecha_apertura` | fecha | sí | RD, art. 25.3: «sus fechas de apertura y cierre». |
-| `fecha_fin_analisis_tecnico` | fecha | sí | Día en que concluyó el análisis técnico. RD, art. 25.2: «Concluido el análisis técnico, el representante ante el Servicio Ejecutivo de la Comisión adoptará, motivadamente y sin demora, la decisión». Sin esta fecha no se puede comprobar el «sin demora». |
-| `fecha_cierre` | fecha | sí | RD, art. 25.3: «sus fechas de apertura y cierre». Qué hecho cierra el expediente es [R-9](#r-9). |
-| `personas` | lista | sí | Las personas que deciden, votan o intervienen sobre la salida de un sistema. Ver §3.1. |
-
-El AMLR no pide ninguna de estas fechas (§10). Se piden siempre, porque la validación no depende del régimen (§0.1, principio 3).
-
-### 3.1. `personas[]`
-
-Las personas se identifican con un código, no con su nombre. **[Decisión propia]**: el registro exige saber quién decidió y con qué cargo, no los datos de identidad, y el modelo no necesita datos personales para eso.
+Las personas se identifican con un código, no con su nombre. **[Decisión propia]**: el registro exige saber quién decidió o revisó y con qué cargo, no los datos de identidad, y el modelo no necesita datos personales para eso.
 
 | Campo | Tipo | Obligatorio | Descripción y cita |
 |---|---|---|---|
 | `id` | cadena | sí | Identificador. Único en la lista. **[Decisión propia]** |
-| `cargos` | lista de valores de la tabla siguiente, sin repetir | sí | Cargos que tiene la persona **en la fecha de la decisión**. Puede tener varios: el AMLR lo prevé (art. 11.7: las funciones del director y del responsable del cumplimiento normativo «podrán ser desempeñadas por la misma persona física»), y nada impide que el representante sea también el responsable del cumplimiento normativo. |
+| `cargos` | lista de valores de la tabla siguiente, sin repetir | sí | Cargos que tiene la persona **en la fecha de la decisión** o, en una alerta descartada, **en la de la revisión**. Puede tener varios: el AMLR lo prevé (art. 11.7: las funciones del director y del responsable del cumplimiento normativo «podrán ser desempeñadas por la misma persona física»), y nada impide que el representante sea también el responsable del cumplimiento normativo. |
 
 | Valor de `cargos` | Cita |
 |---|---|
@@ -224,6 +269,19 @@ Las personas se identifican con un código, no con su nombre. **[Decisión propi
 | `director_cumplimiento_normativo` | AMLR, art. 11.1: «un miembro del órgano de dirección en su función de gestión que será responsable de velar por el cumplimiento [...] (en lo sucesivo, «director de cumplimiento normativo»)». |
 | `responsable_cumplimiento_normativo` | AMLR, art. 11.2: «El responsable del cumplimiento normativo también será responsable de comunicar las operaciones sospechosas a la UIF conforme al artículo 69, apartado 6». |
 | `otro` | Cualquier otra persona: un analista, un empleado que revisa una alerta. **[Decisión propia]**: el modelo no distingue más cargos porque ningún artículo del registro les da un papel. |
+
+---
+
+## 3. Expediente: identificación y fechas
+
+| Campo | Tipo | Obligatorio | Descripción y cita |
+|---|---|---|---|
+| `id` | cadena | sí | Identificador del expediente. **[Decisión propia]**; el RD habla de «cada expediente de examen especial» (art. 25.3). |
+| `fecha_apertura` | fecha | sí | RD, art. 25.3: «sus fechas de apertura y cierre». |
+| `fecha_fin_analisis_tecnico` | fecha | sí | Día en que concluyó el análisis técnico. RD, art. 25.2: «Concluido el análisis técnico, el representante ante el Servicio Ejecutivo de la Comisión adoptará, motivadamente y sin demora, la decisión». Sin esta fecha no se puede comprobar el «sin demora». |
+| `fecha_cierre` | fecha | sí | RD, art. 25.3: «sus fechas de apertura y cierre». Qué hecho cierra el expediente es [R-9](#r-9). |
+
+El AMLR no pide ninguna de estas fechas (§11). Se piden siempre, porque la validación no depende del régimen (§0.1, principio 3).
 
 ---
 
@@ -271,16 +329,16 @@ El RD pide «el motivo que generó su realización» (art. 25.3). El tipo de ori
 
 | Campo | Tipo | Obligatorio | Descripción y cita |
 |---|---|---|---|
-| `id` | cadena | sí | Único en la lista. Un código, no un nombre. **[Decisión propia]**, por la misma razón que en §3.1. |
+| `id` | cadena | sí | Único en la lista. Un código, no un nombre. **[Decisión propia]**, por la misma razón que en §2.2. |
 | `papel` | cadena | sí | Cómo interviene. RD, art. 25.1: «todos los intervinientes en la operación». Ley, art. 18.2.a: en la comunicación, el «concepto de su participación» en la operación. **[Decisión propia]**: texto libre; ningún texto da una lista cerrada de papeles. |
 
-El modelo no recoge importes, monedas, fechas ni medios de pago de cada operación. La Ley los pide para el contenido de la comunicación (art. 18.2.c), no para el registro del examen (§11).
+El modelo no recoge importes, monedas, fechas ni medios de pago de cada operación. La Ley los pide para el contenido de la comunicación (art. 18.2.c), no para el registro del examen (§12).
 
 ---
 
 ## 6. Fases, gestiones y fuentes
 
-RD, art. 25.1: «El proceso de examen especial se realizará de modo estructurado, documentándose las fases de análisis, las gestiones realizadas y las fuentes de información consultadas». El AMLR no pide ninguna de las tres cosas (§10).
+RD, art. 25.1: «El proceso de examen especial se realizará de modo estructurado, documentándose las fases de análisis, las gestiones realizadas y las fuentes de información consultadas». El AMLR no pide ninguna de las tres cosas (§11).
 
 ### 6.1. `fuentes[]`
 
@@ -352,7 +410,7 @@ AMLR, art. 77.1.b: las entidades conservarán «un registro de la evaluación re
 
 **[Decisión propia]** `comunicar` es `true` también si se comunicó solo una parte de la operativa. El registro no recoge la decisión operación por operación: el RD habla de una decisión por expediente (art. 25.3).
 
-**Lo que la decisión no incluye.** La decisión sobre la continuación o interrupción de la relación de negocios forma parte del contenido de la comunicación (RD, art. 26.3), no del registro del examen. Tampoco se recogen las medidas adicionales de mitigación del RD, art. 26.2 (§11).
+**Lo que la decisión no incluye.** La decisión sobre la continuación o interrupción de la relación de negocios forma parte del contenido de la comunicación (RD, art. 26.3), no del registro del examen. Tampoco se recogen las medidas adicionales de mitigación del RD, art. 26.2 (§12).
 
 ### 8.1. `decisor`
 
@@ -364,7 +422,7 @@ AMLR, art. 77.1.b: las entidades conservarán «un registro de la evaluación re
 
 | Valor de `tipo` | Cita |
 |---|---|
-| `persona` | RD, art. 25.2, párrafo primero: «el representante ante el Servicio Ejecutivo de la Comisión adoptará [...] la decisión». Quién decide con el AMLR es [R-4](#r-4); el modelo recoge la persona y sus cargos (§3.1), sin presuponer cuál debe ser. |
+| `persona` | RD, art. 25.2, párrafo primero: «el representante ante el Servicio Ejecutivo de la Comisión adoptará [...] la decisión». Quién decide con el AMLR es [R-4](#r-4); el modelo recoge la persona y sus cargos (§2.2), sin presuponer cuál debe ser. |
 | `organo_control_interno` | RD, art. 25.2, párrafo segundo: «el procedimiento de control interno del sujeto obligado podrá prever que la decisión sea sometida, previamente, a la consideración del órgano de control interno. En estos casos, el órgano de control interno adoptará la decisión por mayoría, debiendo constar expresamente en el acta, el sentido y motivación del voto de cada uno de los miembros». |
 | `otro_organo_colegiado` | Un órgano distinto del de control interno. Ningún texto lo prevé para esta decisión, pero es un hecho posible, por ejemplo con el AMLR, que no dice quién decide ([R-4](#r-4)). **[Decisión propia]** |
 
@@ -376,7 +434,7 @@ AMLR, art. 77.1.b: las entidades conservarán «un registro de la evaluación re
 | `sentido` | `"comunicar"` \| `"no_comunicar"` \| `"abstencion"` | sí | RD, art. 25.2: «el sentido [...] del voto». **[Decisión propia]**: `abstencion` no está en el texto, pero es un hecho que puede constar en un acta. Cómo cuenta para la mayoría es [R-8](#r-8). |
 | `motivacion` | cadena \| `null` | sí | RD, art. 25.2: «y motivación del voto». `null` si el acta no la recoge: es un hecho que el cálculo debe ver, no un error de entrada. |
 
-**[Decisión propia]** La entrada no dice si la decisión se tomó por mayoría: se deduce de los votos. Si los votos contradicen `comunicar`, la entrada no se rechaza: es un hecho que el cálculo debe señalar (§12, V-9).
+**[Decisión propia]** La entrada no dice si la decisión se tomó por mayoría: se deduce de los votos. Si los votos contradicen `comunicar`, la entrada no se rechaza: es un hecho que el cálculo debe señalar (§13, V-9).
 
 ### 8.2. `comunicacion`
 
@@ -385,30 +443,50 @@ AMLR, art. 77.1.b: las entidades conservarán «un registro de la evaluación re
 | `fecha` | fecha | sí | RD, art. 25.3: «la fecha en que, en su caso, se realizó la comunicación». Con la fecha de la decisión, permite comprobar el «sin dilación» de la Ley, art. 18.2. |
 | `referencia_copia` | cadena \| `null` | sí | Referencia a la copia conservada de la comunicación. AMLR, art. 77.1.b: el registro incluye «una copia de las comunicaciones, si las hay, de sospechas de operaciones». `null` si no consta. **[Decisión propia]**: se guarda una referencia, no el documento; el AMLR, art. 77.2, permite a la entidad conservar «las referencias a dicha información» en lugar de copias, con condiciones. |
 
-Con `comunicar` `false`, `comunicacion` es `null`. Con `comunicar` `true`, `comunicacion` puede ser `null` si la comunicación todavía no se ha hecho: es un hecho que el cálculo debe ver (§12, V-8).
+Con `comunicar` `false`, `comunicacion` es `null`. Con `comunicar` `true`, `comunicacion` puede ser `null` si la comunicación todavía no se ha hecho: es un hecho que el cálculo debe ver (§13, V-8).
 
 ---
 
-## 9. Participación de sistemas de IA: `participaciones_ia[]`
+## 9. Participación de sistemas de IA: `sistemas[]` y `participaciones_ia[]`
 
 ### 9.1. Qué se recoge y qué no
 
-**Qué es aquí un «sistema de IA».** **[Decisión propia]** Cualquier sistema que produzca una salida usada en el examen, dentro de lo que describe el AMLR, art. 76.5: «decisiones resultantes de procesos automatizados, incluida la elaboración de perfiles [...], o de procesos que impliquen sistemas de inteligencia artificial con arreglo a la definición que figura en el artículo 3, punto 1, del Reglamento (UE) 2024/XXX». El art. 76.5 da el mismo trato a los procesos automatizados y a los sistemas de IA, y el RD, art. 23, habla de «modelos automatizados». Distinguirlos exigiría mirar dentro del sistema, que la regla 2 del §0.2 prohíbe. Qué reglamento es el «2024/XXX» es [R-5](#r-5).
+**Qué es aquí un «sistema de IA».** **[Decisión propia]** Cualquier sistema que produzca una salida usada en el examen o en la revisión de una alerta, dentro de lo que describe el AMLR, art. 76.5: «decisiones resultantes de procesos automatizados, incluida la elaboración de perfiles [...], o de procesos que impliquen sistemas de inteligencia artificial con arreglo a la definición que figura en el artículo 3, punto 1, del Reglamento (UE) 2024/XXX». El art. 76.5 da el mismo trato a los procesos automatizados y a los sistemas de IA, y el RD, art. 23, habla de «modelos automatizados». Distinguirlos exigiría mirar dentro del sistema, que la regla 2 del §0.2 prohíbe. Por eso todos van en `participaciones_ia`, y el cálculo no les da un trato distinto por ser o no sistemas de IA. Qué reglamento es el «2024/XXX» es [R-5](#r-5).
 
-**La caja cerrada.** De cada participación se recoge qué sistema intervino, en qué momento del examen, qué devolvió y qué hicieron las personas con esa salida. No se recogen las variables de entrada, los umbrales, las reglas, los pesos, los tipos de alerta, la versión del modelo ni ninguna explicación que el sistema dé de sí mismo (§0.2, regla 2).
+**Lo que declara la entidad.** Que el modelo no mire dentro del sistema no impide recoger lo que la entidad dice de él. Cada sistema lleva la declaración de la entidad sobre si lo considera un sistema de IA según el art. 3, punto 1, del AI Act (§9.2). Es un dato declarado: el modelo no lo deduce, no lo comprueba y no lo usa para cambiar el trato del art. 76.5.
+
+**La caja cerrada.** De cada participación se recoge qué sistema intervino, en qué momento, qué devolvió y qué hicieron las personas con esa salida. No se recogen las variables de entrada, los umbrales, las reglas, los pesos, los tipos de alerta, la versión del modelo ni ninguna explicación que el sistema dé de sí mismo (§0.2, regla 2).
 
 **Consecuencia: el art. 76.5.a no se puede comprobar con este registro.** El art. 76.5.a exige que «los datos tratados por dichos sistemas se limiten a los datos obtenidos con arreglo al capítulo III». Comprobarlo exigiría saber qué datos recibe el sistema, es decir, sus variables. El modelo no lo recoge a propósito. Esa condición se comprueba sobre el sistema, no sobre el registro de un examen.
 
-### 9.2. Campos
+### 9.2. `sistemas[]`
+
+| Campo | Tipo | Obligatorio | Descripción y cita |
+|---|---|---|---|
+| `id` | cadena | sí | Identificador del sistema que asigna la entidad. Único en la lista. **[Decisión propia]**: es opaco y el modelo no le da significado. |
+| `declaracion_sistema_ia` | `"si"` \| `"no"` \| `"desconocido"` | sí | Si la entidad **declara** que considera el sistema un sistema de IA según el AI Act, art. 3, punto 1: «un sistema basado en una máquina que está diseñado para funcionar con distintos niveles de autonomía y que puede mostrar capacidad de adaptación tras el despliegue, y que, para objetivos explícitos o implícitos, infiere de la información de entrada que recibe la manera de generar resultados de salida». El AMLR, art. 76.5, remite a esa definición («sistemas de inteligencia artificial con arreglo a la definición que figura en el artículo 3, punto 1, del Reglamento (UE) 2024/XXX»). |
+
+Qué significa cada valor:
+
+- `"si"` y `"no"`: lo que la entidad declara. El modelo no lo contrasta con el funcionamiento del sistema (§0.2, regla 2).
+- `"desconocido"`: la entidad no se ha pronunciado o no lo sabe, por ejemplo con un sistema de un proveedor que no lo ha dicho. **[Decisión propia]**: es un valor propio y no `null`, para distinguir «la entidad dice que no lo sabe» de un campo sin rellenar (§13, V-2).
+
+**Por qué entra aunque el art. 76.5 dé el mismo trato.** Para el AMLR, la declaración no cambia nada: el art. 76.5 exige lo mismo a los procesos automatizados que a los sistemas de IA (§9.1). Entra porque el art. 76.5 nombra la definición del art. 3, punto 1, y porque es el único dato con el que un lector del registro puede ver qué participaciones considera la entidad de IA sin que el modelo tenga que clasificar nada. Qué versión de la definición aplica la entidad no se recoge ([R-5](#r-5)).
+
+**[Decisión propia]** La declaración va en el sistema, no en cada participación: es una propiedad del sistema en la fecha del registro. Si la entidad cambia de criterio, lo reflejan los registros posteriores.
+
+**[Decisión propia]** Todo sistema de la lista debe aparecer en al menos una participación, y toda participación debe citar un sistema de la lista (§13, V-5 y V-13).
+
+### 9.3. `participaciones_ia[]`
 
 | Campo | Tipo | Obligatorio | Descripción y cita |
 |---|---|---|---|
 | `id` | cadena | sí | Único en la lista. **[Decisión propia]** |
-| `sistema` | cadena | sí | Identificador del sistema que asigna la entidad. **[Decisión propia]**: es opaco y el modelo no le da significado. Hace falta para distinguir dos sistemas en el mismo examen y para que la salida tenga origen, como cualquier otra información considerada (RD, art. 25.1: «las fuentes de información consultadas»; AMLR, art. 77.1.b: «la información [...] considerada»). |
-| `momento` | valor de la tabla siguiente | sí | En qué punto del examen se usó la salida. |
+| `sistema` | `id` de `sistemas` | sí | El sistema que produjo la salida (§9.2). Hace falta para distinguir dos sistemas en el mismo registro y para que la salida tenga origen, como cualquier otra información considerada (RD, art. 25.1: «las fuentes de información consultadas»; AMLR, art. 77.1.b: «la información [...] considerada»). |
+| `momento` | valor de la tabla siguiente | sí | En qué punto del examen o de la revisión de la alerta se usó la salida. |
 | `fecha` | fecha | sí | Día en que el sistema produjo la salida. Hace falta para comprobar que la intervención humana y la decisión son posteriores (AMLR, art. 76.5.b: la decisión debe estar «sujeta a una intervención humana significativa»). |
 | `salida` | cadena | sí | La salida del sistema, **tal como la produjo**. **[Decisión propia]**: siempre una cadena, aunque el sistema devuelva un número o una etiqueta. Si el modelo aceptara un número, el cálculo podría compararlo con un umbral, y eso sería modelar el sistema. |
-| `intervencion_humana` | lista | sí | Lo que hicieron las personas con la salida. Puede estar vacía: que nadie la revisara es un hecho. Ver §9.3. |
+| `intervencion_humana` | lista | sí | Lo que hicieron las personas con la salida. Puede estar vacía: que nadie la revisara es un hecho. Ver §9.4. |
 
 | Valor de `momento` | Cita |
 |---|---|
@@ -417,27 +495,75 @@ Con `comunicar` `false`, `comunicacion` es `null`. Con `comunicar` `true`, `comu
 | `analisis` | RD, art. 25.1 (fases de análisis); AMLR, art. 69.2 (la evaluación). |
 | `propuesta_decision` | El sistema propone comunicar o no comunicar. AMLR, art. 76.5: «decisiones resultantes de procesos automatizados [...] o de procesos que impliquen sistemas de inteligencia artificial». Si el art. 76.5 alcanza la decisión de comunicar es [R-2](#r-2). |
 
-**[Decisión propia]** Un sistema que participa en dos momentos del mismo examen da dos participaciones con el mismo `sistema`.
+**[Decisión propia]** Un sistema que participa en dos momentos del mismo registro da dos participaciones con el mismo `sistema`.
 
-### 9.3. `intervencion_humana[]`
+**[Decisión propia]** Con `alerta_descartada`, `propuesta_decision` no tiene sentido: no hay decisión sobre la comunicación. Las participaciones de una alerta descartada suelen ser `generacion_alerta` y `priorizacion_alerta`, y puede haber `analisis` si la revisión usó la salida de otro sistema.
+
+### 9.4. `intervencion_humana[]`
 
 | Campo | Tipo | Obligatorio | Descripción y cita |
 |---|---|---|---|
 | `persona` | `id` de `personas` | sí | Quién intervino. |
-| `fecha` | fecha | sí | Cuándo. Ver `fecha` en §9.2. |
+| `fecha` | fecha | sí | Cuándo. Ver `fecha` en §9.3. |
 | `descripcion` | cadena | sí | Qué hizo con la salida. RD, art. 23, párrafo primero: las alertas generadas «serán revisadas». AMLR, art. 76.5.b: «intervención humana significativa para garantizar la exactitud y adecuación de dicha decisión». |
 
 **[Decisión propia]** La descripción es texto libre. El modelo no clasifica la intervención (confirmar, descartar, modificar) ni dice si fue «significativa»: eso es una valoración, no un hecho de la entrada.
 
 ---
 
-## 10. Qué exige cada régimen y cuál no tiene el otro
+## 10. Alerta revisada y descartada: `alerta_descartada`
+
+### 10.1. Por qué hace falta
+
+Una alerta que se revisa y se descarta sin abrir examen especial es un hecho distinto según el régimen:
+
+- **Ley/RD.** RD, art. 23: «Las alertas generadas serán revisadas a efectos de determinar si procede el examen especial de la operación, de conformidad con lo establecido en el artículo 25». El registro del art. 25.3 es «para cada expediente de examen especial realizado». Una alerta descartada no abre expediente y no tiene registro propio. Lo único que el RD exige de ella es que se revise.
+- **AMLR.** Art. 77.1.b: «un registro de la evaluación realizada de conformidad con el artículo 69, apartado 2, incluida la información y las circunstancias consideradas y los resultados de dicha evaluación, con independencia de que dicha evaluación dé lugar o no a una comunicación». Si revisar una alerta ya es «evaluar» en el sentido del art. 69.2 es [R-6](#r-6), con dos lecturas:
+  - **AD-1:** la revisión de la alerta no es una evaluación del art. 69.2. El AMLR no exige registrarla.
+  - **AD-2:** sí lo es. El art. 77.1.b exige registrar la información y las circunstancias consideradas y los resultados.
+
+`alerta_descartada` recoge los campos mínimos para calcular las dos lecturas: con AD-1 y con la Ley y el RD basta saber que la alerta se revisó; con AD-2 hacen falta además la información, las circunstancias y el resultado. **[Decisión propia]**: ningún campo más.
+
+**Qué no es una alerta descartada.** **[Decisión propia]**
+- Una alerta que abre examen especial es el `origen` de un `expediente` (§4).
+- Una alerta que se incorpora a un examen ya abierto es una participación más de ese `expediente`.
+- Una alerta revisada y descartada que, aun así, se comunica no cabe aquí: comunicar exige, con la Ley, un examen especial previo (Ley, art. 18.2: «la comunicación al Servicio Ejecutivo de la Comisión vendrá precedida de un proceso estructurado de examen especial»). Se registra como `expediente`.
+
+### 10.2. Campos
+
+| Campo | Tipo | Obligatorio | Descripción y cita |
+|---|---|---|---|
+| `id` | cadena | sí | Identificador de la alerta. **[Decisión propia]** |
+| `participaciones_ia` | lista de `id` de `participaciones_ia`, al menos uno | sí | Las participaciones de sistemas en la alerta. Al menos una con `momento` `generacion_alerta`. RD, art. 23: «Las alertas generadas». **[Decisión propia]**: una alerta la genera siempre un proceso, y con la unificación del §9.1 ese proceso es una participación, sea o no un sistema de IA según la declaración de la entidad. |
+| `descripcion_operativa` | cadena | sí | Qué operaciones o actividades señalaba la alerta, en palabras de la entidad. AMLR, art. 69.2: las entidades «evaluarán las operaciones o actividades llevadas a cabo por sus clientes». Sin este dato no se sabe qué se evaluó en la lectura AD-2. No describe el tipo de alerta ni la regla que la generó (§0.2, regla 2). |
+| `revision` | objeto | sí | Quién revisó la alerta y cuándo. RD, art. 23: las alertas «serán revisadas a efectos de determinar si procede el examen especial». Ver abajo. |
+| `fuentes` | lista | sí | La información consultada en la revisión, con la misma estructura que en el `expediente` (§6.1). Puede estar vacía. AMLR, art. 77.1.b: «la información [...] considerada». |
+| `circunstancias_consideradas` | lista | sí | Con la misma estructura que en el `expediente` (§7.1); las referencias `fuentes` apuntan a las de la alerta. Puede estar vacía. AMLR, art. 77.1.b: «las circunstancias consideradas». |
+| `resultado` | cadena \| `null` | sí | El resultado de la revisión y por qué no procede examen especial. AMLR, art. 77.1.b: «los resultados de dicha evaluación». RD, art. 23: la revisión es para «determinar si procede el examen especial». `null` si la entidad no lo registró. |
+
+`revision`:
+
+| Campo | Tipo | Obligatorio | Descripción y cita |
+|---|---|---|---|
+| `persona` | `id` de `personas` | sí | Quién revisó. RD, art. 23. |
+| `fecha` | fecha | sí | Cuándo se revisó y se descartó. RD, art. 23. Además, es la fecha que decide qué régimen se aplica a la alerta (AMLR, art. 90). |
+
+**Listas vacías y `null` son hechos, no errores.** **[Decisión propia]** Con la Ley y el RD, y con AD-1, no hace falta registrar ni fuentes, ni circunstancias, ni resultado: una alerta descartada puede tener las listas vacías y `resultado` `null`. Con AD-2, eso mismo es un registro incompleto que el cálculo debe señalar. La validación no lo rechaza (§0.1, principio 3).
+
+**[Decisión propia]** La revisión de la alerta va en `revision` y no hace falta repetirla en `intervencion_humana` de la participación. Si la persona hizo algo más con la salida del sistema que decidir si procedía examen, eso sí va en `intervencion_humana` (§9.4).
+
+**Lo que no se pide.** Ni conclusión razonada con razones, ni fases, ni decisión sobre la comunicación, ni fechas de apertura y cierre: son datos del expediente de examen especial (RD, art. 25), que no existe. Tampoco se pide un campo que diga que no se comunicó: se deduce de que el registro sea una alerta descartada (§10.1).
+
+---
+
+## 11. Qué exige cada régimen y cuál no tiene el otro
 
 «Ley/RD» es el régimen de la Ley 10/2010 y el RD 304/2014; «AMLR», el del Reglamento (UE) 2024/1624. «—» quiere decir que ese régimen no lo pide.
 
 | Dato | Ley/RD | AMLR | Campo |
 |---|---|---|---|
-| Obligación de dejar constancia | Ley, art. 17: «reseñando por escrito los resultados del examen». RD, art. 25.3: «mantendrán un registro en el que, por orden cronológico, se recogerán para cada expediente». | Art. 77.1.b: «un registro de la evaluación realizada de conformidad con el artículo 69, apartado 2». | todo el JSON |
+| Obligación de dejar constancia | Ley, art. 17: «reseñando por escrito los resultados del examen». RD, art. 25.3: «mantendrán un registro en el que, por orden cronológico, se recogerán para cada expediente». | Art. 77.1.b: «un registro de la evaluación realizada de conformidad con el artículo 69, apartado 2». | `expediente` |
+| Registro de una alerta revisada y descartada | — (sin examen especial no hay expediente; RD, arts. 23 y 25.3) | Según la lectura de [R-6](#r-6): con AD-1, —; con AD-2, art. 77.1.b: la información y las circunstancias consideradas y los resultados. | `alerta_descartada` |
 | Fechas de apertura y cierre | RD, art. 25.3. | — | `fecha_apertura`, `fecha_cierre` |
 | Fin del análisis técnico | RD, art. 25.2: la decisión, «sin demora» tras el análisis técnico. | — | `fecha_fin_analisis_tecnico` |
 | Motivo u origen | RD, art. 25.3: «el motivo que generó su realización». | — | `origen` |
@@ -454,18 +580,19 @@ Con `comunicar` `false`, `comunicacion` es `null`. Con `comunicar` `true`, `comu
 | Motivación de la decisión | RD, art. 25.2: «motivadamente». | — | `decision_comunicacion.motivacion` |
 | Quién decide | RD, art. 25.2: el representante, o el órgano de control interno si el procedimiento lo prevé. | — (arts. 11.2 y 69.6: el responsable del cumplimiento normativo comunica y remite; ninguno dice quién decide: [R-4](#r-4)) | `decisor` |
 | Votos de un órgano colegiado | RD, art. 25.2: «el sentido y motivación del voto de cada uno de los miembros». | — | `decisor.votos` |
-| Criterios homogéneos | RD, art. 25.2: «Las decisiones sobre comunicación deberán responder, en todo caso, a criterios homogéneos». Se comprueba entre expedientes, no en uno (§11). | — | — |
+| Criterios homogéneos | RD, art. 25.2: «Las decisiones sobre comunicación deberán responder, en todo caso, a criterios homogéneos». Se comprueba entre expedientes, no en uno (§12). | — | — |
 | Fecha de la comunicación | RD, art. 25.3. | — | `comunicacion.fecha` |
 | Copia de la comunicación | — | Art. 77.1.b: «una copia de las comunicaciones, si las hay». | `comunicacion.referencia_copia` |
 | Informar al comunicante interno | RD, art. 25.2, párrafo cuarto. | — | `fecha_puesta_en_conocimiento_comunicante` |
 | Número anual de operaciones | RD, art. 23: más de 10.000, modelos automatizados obligatorios. | — | `sujeto.operaciones_anuales` |
-| Revisión de las alertas | RD, art. 23: «Las alertas generadas serán revisadas». | — | `intervencion_humana` con `momento` de alerta |
+| Revisión de las alertas | RD, art. 23: «Las alertas generadas serán revisadas». | — | `alerta_descartada.revision`; en un expediente, `intervencion_humana` con `momento` de alerta |
 | Uso de aplicaciones informáticas | Ley, art. 17: el procedimiento incluirá «la utilización de aplicaciones informáticas apropiadas». No exige intervención humana sobre sus resultados. | Art. 76.5: condiciones para las decisiones de procesos automatizados o de sistemas de IA. | `participaciones_ia` |
 | Intervención humana significativa | — | Art. 76.5.b, para las decisiones que enumera ([R-2](#r-2)). | `intervencion_humana` |
 | Datos limitados al capítulo III | — | Art. 76.5.a. **No se recoge** (§9.1). | — |
+| Sistema de IA según el art. 3, punto 1, del AI Act | — (RD, art. 23: «modelos automatizados», sin distinguir) | Art. 76.5: remite a esa definición, pero da el mismo trato a los procesos automatizados. Se recoge solo lo que declara la entidad (§9.2). | `sistemas[].declaracion_sistema_ia` |
 | Fecha de aplicación | La Ley y el RD están vigentes; ninguno de los dos textos consolidados menciona el AMLR ([R-3](#r-3)). | Art. 90: 10 de julio de 2027; 10 de julio de 2029 para las entidades del art. 3, punto 3, letras n) y o). | `sujeto.actividad` |
 
-**Lo que resulta de la tabla.** El RD pide más datos formales del expediente (fechas, motivo, fases, fuentes, razones, quién decide, votos). El AMLR pide menos, pero pide dos cosas que el RD no tiene: las «circunstancias consideradas» y la copia de la comunicación. Y solo el AMLR pone condiciones al uso de sistemas automatizados o de IA.
+**Lo que resulta de la tabla.** El RD pide más datos formales del expediente (fechas, motivo, fases, fuentes, razones, quién decide, votos). El AMLR pide menos, pero pide dos cosas que el RD no tiene: las «circunstancias consideradas» y la copia de la comunicación. Y, con la lectura AD-2 de [R-6](#r-6), pide registrar alertas que en España no dejan registro. Además, solo el AMLR pone condiciones al uso de sistemas automatizados o de IA.
 
 **El AI Act no es un régimen de este registro.** No exige ningún campo del registro del examen. Sus obligaciones para quien despliega un sistema de alto riesgo (supervisión humana, art. 26.2; archivos de registro durante al menos seis meses, art. 26.6; explicación de decisiones, art. 86) recaen sobre el sistema y su uso, no sobre el registro de cada examen, y dependen de que el sistema sea de alto riesgo, lo que el modelo no determina (§0.2, regla 2). Se anota, sin que el modelo dependa de ello:
 
@@ -478,29 +605,31 @@ Es un borrador no vinculante, y el modelo no toma nada de él.
 
 ---
 
-## 11. Lo que no entra
+## 12. Lo que no entra
 
 Por la regla 1 del §0.2, cada omisión tiene su motivo.
 
 | Dato | Por qué no entra |
 |---|---|
 | Variables, umbrales, reglas, pesos y tipos de alerta del sistema; versión del modelo; explicación que el sistema dé de su salida | Regla 2 del §0.2. |
-| Si el sistema es de alto riesgo según el AI Act, o si cumple la definición de su art. 3, punto 1 | Regla 2 del §0.2. El AI Act no es un régimen de este registro (§10). |
+| Si el sistema es de alto riesgo según el AI Act | Regla 2 del §0.2. El AI Act no es un régimen de este registro (§11). |
+| Si el sistema cumple la definición del art. 3, punto 1, del AI Act a la vista de su funcionamiento | Regla 2 del §0.2. Entra solo la declaración de la entidad (§9.2), que el modelo no contrasta. |
 | Si los datos del sistema se limitan al capítulo III del AMLR (art. 76.5.a) | Exige conocer las variables del sistema (§9.1). |
 | Explicación al cliente e impugnación (AMLR, art. 76.5.c) | El propio artículo lo excluye para la comunicación: «excepto en relación con el informe a que se refiere el artículo 69 del presente Reglamento». |
-| Si la entidad tiene implantados modelos automatizados de alertas (RD, art. 23) | Es un hecho de la configuración de sus sistemas, no del examen. El registro recoge si participó un sistema en este examen (§2.1). |
+| Si la entidad tiene implantados modelos automatizados de alertas (RD, art. 23) | Es un hecho de la configuración de sus sistemas, no del examen. El registro recoge si participó un sistema en este registro (§2.1). |
+| Alertas revisadas y descartadas, contadas en conjunto; tipo o regla de cada alerta | Cada alerta descartada es un registro (§10). Su tipo o la regla que la generó es interna del sistema (§0.2, regla 2). |
 | Prioridad de la evaluación (AMLR, art. 69.2) | El artículo permite priorizar, no pide registrar la prioridad. Si un sistema priorizó, consta como participación con `momento` `priorizacion_alerta`. |
 | Importes, monedas, fechas, lugares y medios de pago de cada operación | La Ley, art. 18.2.c, los pide para el contenido de la comunicación, no para el registro del examen. |
 | Contenido de la comunicación: continuación o interrupción de la relación, medidas de mitigación | RD, arts. 26.2 y 26.3: son contenido o consecuencia de la comunicación, no del registro. |
 | Si las decisiones responden a «criterios homogéneos» (RD, art. 25.2) | Se comprueba comparando expedientes, no dentro de uno. |
 | Plazo de conservación del expediente (RD, art. 25.4: diez años; AMLR, art. 77.3: cinco años desde el fin de la relación o la operación) | Es otro cálculo, el de `plazos-conservacion-pbc`. |
 | Información compartida en asociaciones para el intercambio de información (AMLR, art. 75.4.g: la información generada con IA «solo podrá compartirse cuando dichos procesos hayan sido objeto de una supervisión humana adecuada») | Regula el intercambio entre entidades, no el registro del examen. |
-| Nombres u otros datos de identidad de las personas y de los intervinientes | Ningún artículo del registro exige identificarlas por nombre para lo que el modelo necesita (§3.1, §5). |
+| Nombres u otros datos de identidad de las personas y de los intervinientes | Ningún artículo del registro exige identificarlas por nombre para lo que el modelo necesita (§2.2, §5). |
 | Fechas de cada fase | Ningún texto las exige (§6.2). |
 
 ---
 
-## 12. Validación
+## 13. Validación
 
 La validación no depende del régimen (§0.1, principio 3). Todas las reglas son **[Decisión propia]**. Los códigos de error se fijarán al implementar la carga.
 
@@ -510,7 +639,7 @@ La validación no depende del régimen (§0.1, principio 3). Todas las reglas so
 | V-2 | Los campos que admiten `null` se piden siempre: omitirlos es un error. | Un campo olvidado no se distingue de un `null` intencionado. |
 | V-3 | `version_modelo` debe ser `1`. Las fechas deben tener la forma `AAAA-MM-DD` y existir. Los enteros no admiten decimales ni booleanos. | — |
 | V-4 | Los `id` son únicos dentro de su lista. `sujeto.operaciones_anuales[].anio` no se repite. Un `cargo` no se repite en una persona, ni una persona en `votos`. | — |
-| V-5 | Toda referencia (`fuentes`, `participaciones_ia`, `circunstancias`, `persona`) debe apuntar a un `id` que exista en su lista. `expediente_devuelto` no se comprueba: el expediente devuelto no está en la entrada. | — |
+| V-5 | Toda referencia (`fuentes`, `participaciones_ia`, `circunstancias`, `persona`, `sistema`) debe apuntar a un `id` que exista en su lista. Las `fuentes` de las circunstancias apuntan a las del mismo objeto (`expediente` o `alerta_descartada`). `expediente_devuelto` no se comprueba: el expediente devuelto no está en la entrada. | — |
 | V-6 | `fecha_apertura` ≤ `fecha_fin_analisis_tecnico` ≤ `decision_comunicacion.fecha` ≤ `comunicacion.fecha`, y `fecha_apertura` ≤ `fecha_cierre`. | No se puede decidir antes de analizar, ni comunicar antes de decidir. No se comprueba el orden entre `fecha_cierre` y la decisión o la comunicación ([R-9](#r-9)). |
 | V-7 | Coherencia del decisor: con `tipo` `persona`, `persona` no es `null` y `votos` es `null`; con un órgano colegiado, `persona` es `null`. Con `origen.tipo` `devolucion_servicio_ejecutivo`, `expediente_devuelto` no es `null`; con cualquier otro, es `null`. | Son contradicciones internas de la entrada, no hechos posibles. |
 | V-8 | Con `comunicar` `false`, `comunicacion` es `null`. Con `comunicar` `true`, `comunicacion` puede ser `null`. | Comunicar sin haberlo decidido contradice la entrada. Haber decidido comunicar y no haberlo hecho todavía es un hecho que el cálculo debe ver. |
@@ -518,10 +647,14 @@ La validación no depende del régimen (§0.1, principio 3). Todas las reglas so
 | V-10 | No se comprueba que `fecha_puesta_en_conocimiento_comunicante` sea `null` cuando el origen no es una comunicación interna, ni que no lo sea cuando sí lo es. | Informar a alguien que no comunicó no contradice nada, y no haber informado todavía es un hecho. |
 | V-11 | No se comprueba el orden de las fechas de las participaciones y de las intervenciones humanas respecto de la apertura o de la decisión. | Una alerta es anterior a la apertura, y una intervención posterior a la decisión es precisamente lo que el cálculo tiene que poder señalar ([R-2](#r-2)). |
 | V-12 | `conclusion.razones` no puede estar vacía. | El RD, art. 25.3, pide «las razones en que se basa»; una conclusión sin razones no es una conclusión registrada en ningún régimen. |
+| V-13 | Uno y solo uno de `expediente` y `alerta_descartada` es un objeto; el otro es `null`. Todo sistema de `sistemas` aparece en al menos una participación. | Un registro sin ninguno de los dos no describe nada, y con los dos serían dos registros. Un sistema que no participa es un dato que el cálculo no lee (V-1). |
+| V-14 | En `alerta_descartada`, `participaciones_ia` tiene al menos una participación con `momento` `generacion_alerta`, y ninguna con `momento` `propuesta_decision`. | Una alerta la genera un proceso (§10.2), y sin decisión sobre la comunicación no hay propuesta que hacer (§9.3). |
+| V-15 | En `alerta_descartada` no se comprueba que `fuentes` o `circunstancias_consideradas` tengan elementos, ni que `resultado` no sea `null`. | Con la Ley y el RD y con la lectura AD-1 no hacen falta; con AD-2, que falten es lo que el cálculo tiene que señalar (§10.2). |
+| V-16 | Toda participación de la lista debe estar citada por el `expediente` (en sus fases o circunstancias, o por ser una participación de alerta cuando `origen.tipo` es `alerta`) o por la `alerta_descartada`. No se comprueba en qué objeto. | Una participación que nadie cita no se sabe a qué parte del registro pertenece. Las de alerta de un expediente no las cita ningún campo, y por eso basta con que el origen sea una alerta. |
 
 ---
 
-## 13. Casos que la norma no resuelve
+## 14. Casos que la norma no resuelve
 
 <a id="r-1"></a>
 ### R-1. ¿Es la salida del sistema una «circunstancia considerada» del art. 77.1.b?
@@ -569,7 +702,7 @@ La validación no depende del régimen (§0.1, principio 3). Todas las reglas so
 - AMLR, art. 90: «Será aplicable a partir del 10 de julio de 2027». Y al final: «El presente Reglamento será obligatorio en todos sus elementos y directamente aplicable en cada Estado miembro».
 - El AMLR no deroga ninguna norma nacional ni tiene una disposición transitoria sobre el registro del examen.
 - Ni la Ley consolidada a 21 de marzo de 2026 ni el RD consolidado a 24 de abril de 2024 mencionan el Reglamento (UE) 2024/1624.
-- El AMLR pide menos datos que el RD (§10), y no dice si los Estados miembros pueden pedir más en este punto.
+- El AMLR pide menos datos que el RD (§11), y no dice si los Estados miembros pueden pedir más en este punto.
 
 **Por qué no determina un comportamiento único.** Caben al menos tres lecturas:
 - el art. 25 del RD deja de aplicarse, desplazado por los arts. 69 y 77 del AMLR;
@@ -594,7 +727,7 @@ La respuesta cambia qué datos son obligatorios en un examen de 2028: con la pri
 
 **Por qué no determina un comportamiento único.** «Comunicar» y «remitir» pueden leerse como el acto de enviar, no como la decisión de hacerlo. Con esa lectura, el AMLR no dice quién decide, y la entidad puede atribuir la decisión a quien quiera, incluido un órgano colegiado. Con la lectura contraria, ser «responsable de comunicar» implica decidir, y la decisión es del responsable del cumplimiento normativo. El art. 11.4 habla de «las decisiones del responsable», sin decir cuáles. Tampoco está claro si, con el AMLR, un órgano de control interno puede seguir decidiendo por mayoría como prevé el RD ([R-3](#r-3)).
 
-**Qué hace el modelo.** Recoge quién decidió (una persona o un órgano, §8.1) y los cargos de cada persona en la fecha de la decisión (§3.1), incluidos los del AMLR, sin presuponer cuál debe ser el decisor.
+**Qué hace el modelo.** Recoge quién decidió (una persona o un órgano, §8.1) y los cargos de cada persona en la fecha de la decisión (§2.2), incluidos los del AMLR, sin presuponer cuál debe ser el decisor.
 
 <a id="r-5"></a>
 ### R-5. El «Reglamento (UE) 2024/XXX» sin rellenar del art. 76.5
@@ -611,12 +744,12 @@ La respuesta cambia qué datos son obligatorios en un examen de 2028: con la pri
 - La identificación con el Reglamento (UE) 2024/1689 es la única razonable por el título, pero es una deducción, no lo que dice el texto.
 - Aunque se acepte, queda por saber si la remisión es a la definición del art. 3, punto 1, tal como se publicó o tal como esté en cada momento. El texto consolidado muestra que la definición ya cambió por la rectificación «►C1» (DO L 90802 de 9.10.2025): el original dice que el sistema «puede mostrar capacidad de adaptación tras el despliegue»; el consolidado, «pueda mostrar».
 
-**Qué hace el modelo.** Nada depende de esto en la entrada: el modelo no clasifica el sistema (§0.2, regla 2) y trata igual a los sistemas de IA y a los demás procesos automatizados del art. 76.5 (§9.1). Se documenta porque cualquier cálculo que tenga que decir si se aplica el art. 76.5 a un sistema concreto tendrá que tomar postura.
+**Qué hace el modelo.** El modelo no clasifica el sistema (§0.2, regla 2) y trata igual a los sistemas de IA y a los demás procesos automatizados del art. 76.5 (§9.1). Recoge lo que la entidad declara sobre la definición del art. 3, punto 1 (§9.2), pero no con qué reglamento ni con qué versión de la definición lo ha decidido: la declaración se toma tal como la da la entidad. Se documenta porque cualquier cálculo que tenga que decir si se aplica el art. 76.5 a un sistema concreto tendrá que tomar postura.
 
 <a id="r-6"></a>
 ### R-6. ¿Qué evaluación genera el registro del art. 77.1.b?
 
-**Régimen.** AMLR, y la comparación con Ley/RD.
+**Régimen.** AMLR, para las alertas revisadas y descartadas; la Ley y el RD no tienen el problema.
 
 **Qué dice la norma.**
 - AMLR, art. 77.1.b: «un registro de la evaluación realizada de conformidad con el artículo 69, apartado 2 [...], con independencia de que dicha evaluación dé lugar o no a una comunicación».
@@ -625,7 +758,11 @@ La respuesta cambia qué datos son obligatorios en un examen de 2028: con la pri
 
 **Por qué no determina un comportamiento único.** La revisión de una alerta que se descarta puede ser ya una «evaluación» del art. 69.2, que el art. 77.1.b obliga a registrar, o solo un filtro previo a la evaluación. Con la primera lectura, el AMLR exige registrar muchos más casos que el RD, incluidos los que nunca llegarían a expediente.
 
-**Qué hace el modelo.** La entrada describe un expediente concluido (§2). Una revisión de alerta descartada no cabe en esta versión del modelo, porque no tiene fases, conclusión razonada ni decisión sobre la comunicación en el sentido del RD. Si se adopta la primera lectura, habrá que ampliar el modelo; se deja constancia aquí para no cerrar la cuestión sin decirlo.
+**Qué hace el modelo.** Un registro puede ser un `expediente` o una `alerta_descartada` (§10). La alerta descartada lleva los campos mínimos para calcular dos lecturas:
+- **AD-1:** revisar una alerta no es evaluar en el sentido del art. 69.2. Con el AMLR, la alerta descartada no exige registro, igual que con la Ley y el RD.
+- **AD-2:** revisar una alerta ya es evaluar. El art. 77.1.b exige registrar la información y las circunstancias consideradas (`fuentes`, `circunstancias_consideradas`) y los resultados (`resultado`).
+
+Con las dos lecturas y con la Ley y el RD, la entrada recoge que la alerta se revisó, quién y cuándo (RD, art. 23). La validación admite una alerta descartada sin fuentes, sin circunstancias y sin resultado: con AD-2 eso es un registro incompleto que el cálculo debe señalar, y con AD-1 no lo es (§13, V-15).
 
 <a id="r-7"></a>
 ### R-7. ¿Qué año y qué operaciones cuentan para el umbral de 10.000 del RD, art. 23?
@@ -661,7 +798,7 @@ La respuesta cambia qué datos son obligatorios en un examen de 2028: con la pri
 
 **Por qué no determina un comportamiento único.** El cierre puede ser el fin del análisis técnico, la decisión o la comunicación. Según la lectura, un expediente cerrado puede tener todavía pendiente la decisión o la comunicación.
 
-**Qué hace el modelo.** Recoge las cuatro fechas por separado (§3, §8) y no exige ningún orden entre el cierre y la decisión o la comunicación (§12, V-6).
+**Qué hace el modelo.** Recoge las cuatro fechas por separado (§3, §8) y no exige ningún orden entre el cierre y la decisión o la comunicación (§13, V-6).
 
 <a id="r-10"></a>
 ### R-10. ¿Puede decidir una persona autorizada por el representante?
@@ -674,4 +811,4 @@ La respuesta cambia qué datos son obligatorios en un examen de 2028: con la pri
 
 **Por qué no determina un comportamiento único.** El art. 35.1 no dice qué funciones pueden ejercer las personas autorizadas. Puede leerse que actúan en todo lo que corresponde al representante, incluida la decisión del art. 25.2, o que solo le asisten.
 
-**Qué hace el modelo.** Recoge el cargo `persona_autorizada_por_el_representante` (§3.1), de modo que se vea cuándo decidió una persona autorizada y no el representante.
+**Qué hace el modelo.** Recoge el cargo `persona_autorizada_por_el_representante` (§2.2), de modo que se vea cuándo decidió una persona autorizada y no el representante.
