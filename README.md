@@ -2,6 +2,8 @@
 
 Un sujeto obligado por la normativa de prevención del blanqueo de capitales examina las operaciones que pueden estar relacionadas con el blanqueo, decide si las comunica y deja registro de cada examen. Cada vez más, en ese examen interviene un sistema automatizado o de inteligencia artificial. Esta herramienta comprueba si el registro de un examen, o de una alerta revisada y descartada, contiene lo que exige cada norma, y dónde la respuesta depende de una pregunta que ningún texto resuelve.
 
+Sitio: https://mshodai.github.io/registro-examen-especial-pbc/, quién decide la comunicación de una operación sospechosa cuando interviene un sistema de IA.
+
 El escenario. La norma europea autoriza que un modelo intervenga en la evaluación: el Reglamento (UE) 2024/1624 (AMLR), aplicable desde el 10 de julio de 2027, permite decisiones «resultantes de procesos automatizados [...] o de procesos que impliquen sistemas de inteligencia artificial» (art. 76.5). Pero deja sin asignar la decisión de comunicar una sospecha:
 - **La intervención humana significativa** que exige el art. 76.5.b se refiere a entablar o mantener una relación, a una operación ocasional y a las medidas de diligencia debida. La decisión de comunicar no está en la lista.
 - **Quién decide** tampoco lo dice: el responsable del cumplimiento normativo «comunica» y «remite» (arts. 11.2 y 69.6).
