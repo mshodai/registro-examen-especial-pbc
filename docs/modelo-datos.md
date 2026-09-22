@@ -100,8 +100,10 @@ Un examen especial abierto en septiembre de 2027, después de la fecha de aplica
     "origen": {
       "tipo": "alerta",
       "descripcion": "Alerta de ejemplo A sobre la operativa de un cliente ficticio (motivo inventado)",
+      "participaciones_ia": ["IA-1"],
       "expediente_devuelto": null
     },
+    "participaciones_incorporadas": [],
     "operativa_analizada": {
       "descripcion": "Operaciones de ejemplo de un cliente ficticio entre junio y agosto de 2027",
       "operaciones": [
@@ -280,6 +282,7 @@ Las personas se identifican con un código, no con su nombre. **[Decisión propi
 | `fecha_apertura` | fecha | sí | RD, art. 25.3: «sus fechas de apertura y cierre». |
 | `fecha_fin_analisis_tecnico` | fecha | sí | Día en que concluyó el análisis técnico. RD, art. 25.2: «Concluido el análisis técnico, el representante ante el Servicio Ejecutivo de la Comisión adoptará, motivadamente y sin demora, la decisión». Sin esta fecha no se puede comprobar el «sin demora». |
 | `fecha_cierre` | fecha | sí | RD, art. 25.3: «sus fechas de apertura y cierre». Qué hecho cierra el expediente es [R-9](#r-9). |
+| `participaciones_incorporadas` | lista de `id` de `participaciones_ia` | sí | Participaciones que se suman al expediente después de abrirlo, en particular una alerta generada sobre la operativa que ya se está examinando. Puede estar vacía. RD, art. 25.1: el examen «tendrá naturaleza integral, debiendo analizar toda la operativa relacionada [...] y toda la información relevante obrante en el sujeto obligado». RD, art. 23: la alerta se revisa «a efectos de determinar si procede el examen especial», y si ya hay uno abierto, se suma a él. AMLR, art. 77.1.b: «la información [...] considerada». **[Decisión propia]**: una participación incorporada puede estar citada también por una fase o una circunstancia; este campo solo dice que forma parte del expediente aunque ninguna fase ni circunstancia la cite. |
 
 El AMLR no pide ninguna de estas fechas (§11). Se piden siempre, porque la validación no depende del régimen (§0.1, principio 3).
 
@@ -293,11 +296,12 @@ El RD pide «el motivo que generó su realización» (art. 25.3). El tipo de ori
 |---|---|---|---|
 | `tipo` | valor de la tabla siguiente | sí | Qué dio lugar al examen. |
 | `descripcion` | cadena | sí | El motivo, en palabras de la entidad. RD, art. 25.3: «el motivo que generó su realización». |
+| `participaciones_ia` | lista de `id` de `participaciones_ia` | sí | Las participaciones de sistemas que dieron lugar al examen: la generación y, si la hubo, la priorización de la alerta. Solo con `momento` `generacion_alerta` o `priorizacion_alerta`. Con `tipo` `alerta`, al menos una con `momento` `generacion_alerta` (§10.2: una alerta la genera siempre un proceso). Con otro tipo, puede estar vacía. RD, art. 25.3: «el motivo que generó su realización»; RD, art. 23: «Las alertas generadas». Las alertas que llegan después de abrir el examen no van aquí, sino en `participaciones_incorporadas` (§3). |
 | `expediente_devuelto` | cadena \| `null` | sí | Con `tipo` `devolucion_servicio_ejecutivo`, el `id` del expediente cuya comunicación devolvió el Servicio Ejecutivo. Si no, `null`. Ley, art. 18.2: el Servicio Ejecutivo «devolverá la comunicación al sujeto obligado a efectos de que por éste se profundice en el examen de la operación». **[Decisión propia]**: se guarda el `id` del expediente anterior, no una copia de sus datos. |
 
 | Valor de `tipo` | Cita | Regla que activa |
 |---|---|---|
-| `alerta` | RD, art. 23: «Las alertas generadas serán revisadas a efectos de determinar si procede el examen especial de la operación». | Si participó un sistema en la alerta, se recoge en §9 con `momento` `generacion_alerta` o `priorizacion_alerta`. |
+| `alerta` | RD, art. 23: «Las alertas generadas serán revisadas a efectos de determinar si procede el examen especial de la operación». La participación que generó la alerta se recoge en §9 y se cita en `origen.participaciones_ia`. |
 | `comunicacion_interna` | RD, art. 24.1.b: un «cauce de comunicación con los órganos de control interno» para que los directivos, empleados y agentes comuniquen «cualquier hecho u operación que pudiera estar relacionado con el blanqueo de capitales o la financiación del terrorismo». | RD, art. 25.2, párrafo cuarto: la decisión final «será puesta en conocimiento del comunicante» (§8, `fecha_puesta_en_conocimiento_comunicante`). |
 | `devolucion_servicio_ejecutivo` | Ley, art. 18.2, citado arriba. | `expediente_devuelto` es obligatorio (no `null`). |
 | `imposibilidad_diligencia_debida` | Ley, art. 7.3: «Cuando se aprecie la imposibilidad en el curso de la relación de negocios, los sujetos obligados pondrán fin a la misma, procediendo a realizar el examen especial a que se refiere el artículo 17». AMLR, art. 69.1, párrafo segundo: se comunican también «las sospechas derivadas de la incapacidad de llevar a cabo la diligencia debida con el cliente». | Ninguna propia en el registro. |
@@ -526,7 +530,7 @@ Una alerta que se revisa y se descarta sin abrir examen especial es un hecho dis
 
 **Qué no es una alerta descartada.** **[Decisión propia]**
 - Una alerta que abre examen especial es el `origen` de un `expediente` (§4).
-- Una alerta que se incorpora a un examen ya abierto es una participación más de ese `expediente`.
+- Una alerta que se incorpora a un examen ya abierto es una participación más de ese `expediente`, citada en `participaciones_incorporadas` (§3).
 - Una alerta revisada y descartada que, aun así, se comunica no cabe aquí: comunicar exige, con la Ley, un examen especial previo (Ley, art. 18.2: «la comunicación al Servicio Ejecutivo de la Comisión vendrá precedida de un proceso estructurado de examen especial»). Se registra como `expediente`.
 
 ### 10.2. Campos
@@ -650,7 +654,9 @@ La validación no depende del régimen (§0.1, principio 3). Todas las reglas so
 | V-13 | Uno y solo uno de `expediente` y `alerta_descartada` es un objeto; el otro es `null`. Todo sistema de `sistemas` aparece en al menos una participación. | Un registro sin ninguno de los dos no describe nada, y con los dos serían dos registros. Un sistema que no participa es un dato que el cálculo no lee (V-1). |
 | V-14 | En `alerta_descartada`, `participaciones_ia` tiene al menos una participación con `momento` `generacion_alerta`, y ninguna con `momento` `propuesta_decision`. | Una alerta la genera un proceso (§10.2), y sin decisión sobre la comunicación no hay propuesta que hacer (§9.3). |
 | V-15 | En `alerta_descartada` no se comprueba que `fuentes` o `circunstancias_consideradas` tengan elementos, ni que `resultado` no sea `null`. | Con la Ley y el RD y con la lectura AD-1 no hacen falta; con AD-2, que falten es lo que el cálculo tiene que señalar (§10.2). |
-| V-16 | Toda participación de la lista debe estar citada por el `expediente` (en sus fases o circunstancias, o por ser una participación de alerta cuando `origen.tipo` es `alerta`) o por la `alerta_descartada`. No se comprueba en qué objeto. | Una participación que nadie cita no se sabe a qué parte del registro pertenece. Las de alerta de un expediente no las cita ningún campo, y por eso basta con que el origen sea una alerta. |
+| V-16 | Toda participación de la lista debe estar citada al menos una vez: por el `expediente` (en `origen.participaciones_ia`, `participaciones_incorporadas`, una fase o una circunstancia) o por la `alerta_descartada`. | Una participación que nadie cita no se sabe a qué parte del registro pertenece. La primera versión de esta regla admitía sin cita las participaciones de alerta cuando `origen.tipo` era `alerta`, y rechazaba una alerta incorporada después de abrir el examen (V-17). |
+| V-17 | Caso: expediente con `origen.tipo` `comunicacion_interna` al que se suma después una alerta generada por un sistema. La participación de la alerta se acepta si está en `participaciones_incorporadas` (o la cita una fase o una circunstancia), y se rechaza por V-16 si no la cita nada. No se comprueba que su `fecha` sea posterior a `fecha_apertura`. | Es el caso que la primera versión de V-16 rechazaba aunque el modelo decía que esa alerta era «una participación más» del expediente. La fecha no se comprueba por la misma razón que en V-11: el orden de las fechas es un hecho, no una contradicción de la entrada. |
+| V-18 | `origen.participaciones_ia` solo admite participaciones con `momento` `generacion_alerta` o `priorizacion_alerta`. Con `origen.tipo` `alerta`, al menos una tiene `momento` `generacion_alerta`. | Lo que dio lugar al examen es la alerta; un análisis o una propuesta de decisión son posteriores a la apertura. La segunda parte es la misma regla que V-14 para la alerta descartada. |
 
 ---
 
