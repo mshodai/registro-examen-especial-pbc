@@ -635,7 +635,28 @@ Por la regla 1 del §0.2, cada omisión tiene su motivo.
 
 ## 13. Validación
 
-La validación no depende del régimen (§0.1, principio 3). Todas las reglas son **[Decisión propia]**. Los códigos de error se fijarán al implementar la carga.
+La validación no depende del régimen (§0.1, principio 3). Se recogen todos los errores de la entrada, no solo el primero, y si hay alguno la entrada se rechaza entera.
+
+### 13.1. Errores
+
+| Código | Error | Reglas |
+|---|---|---|
+| `ERR-01` | Estructura o tipo: el JSON está mal formado o repite una clave en un mismo objeto; falta un campo obligatorio; un valor no es del tipo indicado; `version_modelo` no es `1`; hay un campo `regimen` o cualquier otro campo que el modelo no define. | V-1 a V-3, V-20, V-22, V-23 |
+| `ERR-02` | `id` repetido en su lista, `anio` repetido, un cargo repetido en una persona, una persona repetida en `votos`, o una misma referencia repetida en una lista de referencias. | V-4, V-24 |
+| `ERR-03` | Una referencia apunta a un `id` que no existe en su lista. | V-5 |
+| `ERR-04` | Fechas del expediente en un orden imposible. | V-6 |
+| `ERR-05` | Decisor incoherente con su tipo, o `expediente_devuelto` incoherente con el origen. | V-7 |
+| `ERR-06` | `comunicar` es `false` y `comunicacion` no es `null`. | V-8 |
+| `ERR-07` | `conclusion.razones` vacía. | V-12 |
+| `ERR-08` | Ni `expediente` ni `alerta_descartada`, o los dos. | V-13 |
+| `ERR-09` | Un sistema que no aparece en ninguna participación. | V-13 |
+| `ERR-10` | La alerta descartada no tiene una participación de generación de la alerta, o tiene una propuesta de decisión. | V-14 |
+| `ERR-11` | Una participación que no cita ninguna parte del registro. | V-16, V-17 |
+| `ERR-12` | `origen.participaciones_ia` con un momento que no es de alerta, o sin generación de la alerta con `origen.tipo` `alerta`. | V-18 |
+
+### 13.2. Decisiones de validación
+
+Todas son **[Decisión propia]**. V-1 a V-18 salieron del diseño del modelo; V-19 a V-24, de la implementación de la carga, para lo que el modelo no decidía.
 
 | Id | Regla | Motivo |
 |---|---|---|
@@ -657,6 +678,12 @@ La validación no depende del régimen (§0.1, principio 3). Todas las reglas so
 | V-16 | Toda participación de la lista debe estar citada al menos una vez: por el `expediente` (en `origen.participaciones_ia`, `participaciones_incorporadas`, una fase o una circunstancia) o por la `alerta_descartada`. | Una participación que nadie cita no se sabe a qué parte del registro pertenece. La primera versión de esta regla admitía sin cita las participaciones de alerta cuando `origen.tipo` era `alerta`, y rechazaba una alerta incorporada después de abrir el examen (V-17). |
 | V-17 | Caso: expediente con `origen.tipo` `comunicacion_interna` al que se suma después una alerta generada por un sistema. La participación de la alerta se acepta si está en `participaciones_incorporadas` (o la cita una fase o una circunstancia), y se rechaza por V-16 si no la cita nada. No se comprueba que su `fecha` sea posterior a `fecha_apertura`. | Es el caso que la primera versión de V-16 rechazaba aunque el modelo decía que esa alerta era «una participación más» del expediente. La fecha no se comprueba por la misma razón que en V-11: el orden de las fechas es un hecho, no una contradicción de la entrada. |
 | V-18 | `origen.participaciones_ia` solo admite participaciones con `momento` `generacion_alerta` o `priorizacion_alerta`. Con `origen.tipo` `alerta`, al menos una tiene `momento` `generacion_alerta`. | Lo que dio lugar al examen es la alerta; un análisis o una propuesta de decisión son posteriores a la apertura. La segunda parte es la misma regla que V-14 para la alerta descartada. |
+| V-19 | Códigos `ERR-01` a `ERR-12` (§13.1), en el orden de las reglas V-n de las que salen. Son estables y no se reutilizan. | Mismo criterio que en los repositorios anteriores de la serie. |
+| V-20 | Son `ERR-01` un JSON mal formado, una clave repetida en un mismo objeto y los valores `NaN`, `Infinity` y `-Infinity`. | Una clave repetida suele ser un error de edición, y quedarse con el último valor, como hace un lector JSON habitual, lo taparía. `NaN` e `Infinity` no son JSON válido aunque muchos lectores los acepten. |
+| V-21 | Con algún `ERR-01` no se comprueban `ERR-03` a `ERR-12`. `ERR-02` sí. | Las referencias, las fechas y la coherencia dependen de datos que no se han podido leer, y comprobarlas daría errores que solo repiten el primero. |
+| V-22 | Se admiten textos vacíos. | Que la entidad dejara un campo en blanco es un hecho. El cálculo lo trata como ausente (especificación, D-3). |
+| V-23 | `anio` es un entero entre 1 y 9999 y `numero` un entero mayor o igual que 0. Los enteros no admiten booleanos ni números con decimales, tampoco `12.0`. | Un año fuera de ese intervalo no se puede convertir en fecha, y un número de operaciones negativo no es un hecho. |
+| V-24 | Una misma referencia repetida en una lista de referencias (por ejemplo, dos veces `F-1` en las fuentes de una fase) es `ERR-02`. | Citar dos veces lo mismo no añade nada y suele ser un error de edición. Es la misma regla que en `plazos-actualizacion-pbc` (V-20). |
 
 ---
 

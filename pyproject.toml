@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "registro-examen-especial-pbc"
+version = "0.1.0"
+description = "Comprueba si el registro de un examen especial de prevención del blanqueo de capitales, o de una alerta descartada, está completo según la Ley 10/2010 y el RD 304/2014, según el AMLR y según cada lectura de la transición"
+license = "MIT"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
