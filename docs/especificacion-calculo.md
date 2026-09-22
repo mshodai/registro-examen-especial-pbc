@@ -472,8 +472,6 @@ El informe empieza con la advertencia de que es un cálculo bajo las lecturas qu
 
 Dar 1 por cualquier `indeterminado` marcaría como defectuosa toda alerta descartada bien registrada, solo porque R-6 no está resuelto.
 
-**No es el mismo criterio que `plazos-actualizacion-pbc`.** Allí, D-38 da 1 cuando los regímenes dan estados distintos o alguno es `indeterminado`, y 0 cuando todos coinciden, y dice que el código sirve para «avisar de que el estado en la fecha de referencia no está claro». Con ese criterio, un cliente `vencida` en los seis regímenes da 0 aunque haya que revisarlo, y aquí un registro `incompleto` en los cinco da 1. Los dos criterios coinciden cuando un `indeterminado` mezcla un estado que exige actuar con otro que no. Esta especificación no adopta el de D-38 porque, en un registro, lo útil es saber si falta algo, no si las normas coinciden. La comparación entre regímenes está en el informe ([D-26]).
-
 ---
 
 ## 10. Lo que queda fuera
@@ -513,5 +511,5 @@ Dar 1 por cualquier `indeterminado` marcaría como defectuosa toda alerta descar
 | D-22 | Expediente que abarca A: FT-1 la apertura, FT-2 el cierre. | §5.3 |
 | D-23 | `amlr` en cualquier fecha, con aviso si el registro es anterior a A o la abarca. | §4.6 |
 | D-24 | Umbral del RD, art. 23: dato informativo, con OA-1 el año anterior y OA-2 el del registro. | §2.2 |
-| D-25 | El código 1 señala que alguna lectura exige actuar: alguna combinación da `incompleto`. No es el criterio de D-38 de `plazos-actualizacion-pbc`. | §9.1 |
+| D-25 | El código 1 señala que alguna lectura exige actuar: alguna combinación da `incompleto`. | §9.1 |
 | D-26 | Se comparan T-1 a T-3 y `ley_rd` con `amlr`; coinciden si dan el mismo estado y las mismas faltas. | §5.2 |
