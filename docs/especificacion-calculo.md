@@ -2,7 +2,7 @@
 
 Este documento explica cómo se comprueba, para un registro y un régimen, **si el registro está completo y qué le falta**. Un registro es un examen especial (o evaluación) o una alerta revisada y descartada. Se comprueba con la Ley 10/2010 y su Reglamento, con el AMLR y con cada lectura de la transición del 10 de julio de 2027. La entrada es el JSON de [`modelo-datos.md`](modelo-datos.md), que solo recoge hechos y no lleva régimen. No contiene código.
 
-Siglas y fuentes: las de [`modelo-datos.md`](modelo-datos.md) (detalle y huellas en [`fuentes/FUENTES.md`](fuentes/FUENTES.md)). Las referencias «R-n» remiten a los casos que la norma no resuelve (modelo, §14). «Modelo, §n» remite a una sección de [`modelo-datos.md`](modelo-datos.md).
+Siglas y fuentes: las de [`modelo-datos.md`](modelo-datos.md) (detalle y huellas en [`fuentes/FUENTES.md`](fuentes/FUENTES.md)). Las referencias «R-n» remiten a los casos que la norma no resuelve, en [`ambiguedades.md`](ambiguedades.md). «Modelo, §n» remite a una sección de [`modelo-datos.md`](modelo-datos.md).
 
 Convenciones:
 

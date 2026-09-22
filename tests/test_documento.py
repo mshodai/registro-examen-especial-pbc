@@ -52,7 +52,23 @@ def test_las_decisiones_citadas_en_el_codigo_existen():
 
 
 def test_los_casos_citados_en_el_codigo_existen():
-    modelo = (RAIZ / "docs" / "modelo-datos.md").read_text(encoding="utf-8")
-    casos = set(re.findall(r'^<a id="(r-\d+)"></a>', modelo, re.M))
+    ambiguedades = (RAIZ / "docs" / "ambiguedades.md").read_text(encoding="utf-8")
+    casos = set(re.findall(r'^<a id="(r-\d+)"></a>', ambiguedades, re.M))
     citados = {c.lower() for c in re.findall(r"\bR-\d+\b", CALCULO)}
     assert citados and citados <= casos
+
+
+def test_los_enlaces_a_los_casos_llevan_a_ambiguedades():
+    """Los casos se extrajeron del modelo; sus enlaces apuntan a ambiguedades.md y existen."""
+    ambiguedades = (RAIZ / "docs" / "ambiguedades.md").read_text(encoding="utf-8")
+    anclas = set(re.findall(r'^<a id="(r-\d+)"></a>', ambiguedades, re.M))
+    assert anclas == {f"r-{n}" for n in range(1, 12)}
+    for nombre in ("modelo-datos.md", "especificacion-calculo.md"):
+        texto = (RAIZ / "docs" / nombre).read_text(encoding="utf-8")
+        assert "](#r-" not in texto
+        assert set(re.findall(r"\]\(ambiguedades\.md#(r-\d+)\)", texto)) <= anclas
+    for caso in re.findall(r"^### (R-\d+)\.", ambiguedades, re.M):
+        seccion = ambiguedades.split(f"### {caso}.", 1)[1].split("\n### ", 1)[0]
+        for apartado in ("**Qué dice la norma.**", "**Por qué no determina un comportamiento único.**",
+                         "**Qué hace la implementación.**", "**Cómo se señala en la salida.**", "**Régimen.**"):
+            assert apartado in seccion, (caso, apartado)
