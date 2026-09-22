@@ -454,7 +454,7 @@ El resultado tiene una entrada por régimen, con:
 - `indeterminado`: si lo es, las dimensiones atribuidas ([D-7]) y las preguntas para salir de él ([D-8]).
 - `avisos`.
 
-Además, fuera de los regímenes: los datos informativos (§2) y la comparación de [D-26].
+Además, fuera de los regímenes: `exige_actuar` ([D-25]), los datos informativos (§2) y la comparación de [D-26].
 
 El informe empieza con la advertencia de que es un cálculo bajo las lecturas que declara esta especificación, no una determinación jurídica.
 
@@ -471,6 +471,21 @@ El informe empieza con la advertencia de que es un cálculo bajo las lecturas qu
 - Un registro `incompleto` en todas las lecturas da 1, aunque su estado no sea dudoso.
 
 Dar 1 por cualquier `indeterminado` marcaría como defectuosa toda alerta descartada bien registrada, solo porque R-6 no está resuelto.
+
+Es el mismo criterio que `plazos-actualizacion-pbc` (D-41) y `plazos-conservacion-pbc` (D-28), aplicado a estos estados.
+
+**El informe dice qué lo activa.** `exige_actuar` no es solo verdadero o falso: da el régimen, la combinación de lecturas y lo que falta en cada combinación que da `incompleto`, para que un código 1 junto a un `indeterminado`, o junto a un estado que no exija nada, se explique en el propio informe. En JSON:
+
+```json
+"exige_actuar": {
+  "valor": true,
+  "activado_por": [
+    { "regimen": "amlr", "lecturas": ["SC-1", "DC-1"], "estado": "incompleto", "faltas": ["AM-04"] }
+  ]
+}
+```
+
+`lecturas` está vacía si el régimen no consulta ninguna dimensión. En texto, un apartado «Exige actuar» da esas combinaciones por régimen, con sus faltas, hasta tres por régimen (el JSON las da todas), y señala «estado del régimen: …» cuando el estado mostrado no es `incompleto`. En el ejemplo 1, `amlr` es `indeterminado`, y el apartado dice que lo exigen SC-1 con DC-1 (falta AM-04), SC-1 con DC-2 (AM-04 y AM-07) y SC-2 o SC-3 con DC-2 (AM-07).
 
 ---
 
@@ -511,5 +526,5 @@ Dar 1 por cualquier `indeterminado` marcaría como defectuosa toda alerta descar
 | D-22 | Expediente que abarca A: FT-1 la apertura, FT-2 el cierre. | §5.3 |
 | D-23 | `amlr` en cualquier fecha, con aviso si el registro es anterior a A o la abarca. | §4.6 |
 | D-24 | Umbral del RD, art. 23: dato informativo, con OA-1 el año anterior y OA-2 el del registro. | §2.2 |
-| D-25 | El código 1 señala que alguna lectura exige actuar: alguna combinación da `incompleto`. | §9.1 |
+| D-25 | El código 1 señala que alguna lectura exige actuar: alguna combinación da `incompleto`. `exige_actuar` da el régimen, las lecturas y las faltas que lo activan. Mismo criterio que D-41 de `plazos-actualizacion-pbc` y D-28 de `plazos-conservacion-pbc`. | §9.1 |
 | D-26 | Se comparan T-1 a T-3 y `ley_rd` con `amlr`; coinciden si dan el mismo estado y las mismas faltas. | §5.2 |
