@@ -64,3 +64,67 @@ b1df0ffb30310e126c7e060e03c9b5aab97c0a2ab61a2f3e3e00ede3655e2792  Comision-borra
 ```
 
 Para comprobarlas: `cd docs/fuentes && shasum -a 256 -c` pegando el bloque anterior en la entrada estándar.
+
+## Datos para la vigilancia automática
+
+Repite en formato legible por máquina el fichero, la URL de descarga y la huella SHA-256 de cada documento de las secciones anteriores. Lo lee el script de `vigilancia-fuentes`, que comprueba que coincida con el texto. Si difieren, prevalece el texto.
+
+En los borradores, `paginas` recoge sus páginas oficiales, donde se anunciarían las directrices finales. Para cada página se guardan las frases sobre directrices finales y los enlaces de descarga que ofrecía el 2026-09-22. El script avisa si aparece otra frase u otra descarga.
+
+```json
+{
+  "documentos": [
+    {
+      "fichero": "BOE-A-2010-6737-consolidado.pdf",
+      "url": "https://www.boe.es/buscar/pdf/2010/BOE-A-2010-6737-consolidado.pdf",
+      "sha256": "4782a40bcf44165a97bc361520fd2b348acf7efbdfaa0a8d876c58332ff8601d"
+    },
+    {
+      "fichero": "BOE-A-2014-4742-consolidado.pdf",
+      "url": "https://www.boe.es/buscar/pdf/2014/BOE-A-2014-4742-consolidado.pdf",
+      "sha256": "59d7be80313780a8cf48e1f3f87b5bd2860855a126472c0374e1c30c7fc19f0d"
+    },
+    {
+      "fichero": "OJ_L_202401624_ES_TXT.pdf",
+      "url": "https://eur-lex.europa.eu/legal-content/ES/TXT/PDF/?uri=OJ:L_202401624",
+      "sha256": "666f18e1b5d4dd6bb7e927328bd8d84420d0919e692288f0b917c357df690974"
+    },
+    {
+      "fichero": "AI-Act-DOUE-original.pdf",
+      "url": "https://www.boe.es/doue/2024/1689/L00001-00144.pdf",
+      "sha256": "29e6d41f41cc0efea6b5f8a1418a7ef31e9422f9eba0c297ddc7e7ed7f357b1c"
+    },
+    {
+      "fichero": "CELEX_02024R1689-20260727_ES_TXT.pdf",
+      "url": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX%3A02024R1689-20260727",
+      "sha256": "be5a4c591c71ebe5e8b9be36336c7c2a6aac0a0fd895430f8704ecce7365008f"
+    },
+    {
+      "fichero": "Comision-borrador-directrices-alto-riesgo-AnexoIII.pdf",
+      "url": "https://ec.europa.eu/newsroom/dae/redirection/document/128561",
+      "sha256": "b1df0ffb30310e126c7e060e03c9b5aab97c0a2ab61a2f3e3e00ede3655e2792",
+      "borrador": {
+        "paginas": [
+          {
+            "url": "https://digital-strategy.ec.europa.eu/en/library/draft-commission-guidelines-classification-high-risk-ai-systems",
+            "menciones_conocidas": [],
+            "descargas_conocidas": [
+              "https://ec.europa.eu/newsroom/dae/redirection/document/128559",
+              "https://ec.europa.eu/newsroom/dae/redirection/document/128560",
+              "https://ec.europa.eu/newsroom/dae/redirection/document/128561"
+            ]
+          },
+          {
+            "url": "https://digital-strategy.ec.europa.eu/en/news/consultation-guidelines-high-risk",
+            "menciones_conocidas": [
+              "The final guidelines will be adopted by the end of 2026.",
+              "Feedback received will be considered by the Commission in the final version of the guidelines."
+            ],
+            "descargas_conocidas": []
+          }
+        ]
+      }
+    }
+  ]
+}
+```
