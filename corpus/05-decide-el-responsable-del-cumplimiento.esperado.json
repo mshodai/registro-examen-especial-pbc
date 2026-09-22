@@ -1,0 +1,65 @@
+{
+  "caso": "05-decide-el-responsable-del-cumplimiento",
+  "demuestra": "Expediente de 2028 en el que decide la persona responsable del cumplimiento normativo, que no es el representante ante el Servicio Ejecutivo. Con la Ley y el RD falta RD-11; con el AMLR está completo. Las lecturas de la transición divergen (R-3): T-1 completo, T-3 incompleto y T-2 depende además de quién decide con el AMLR (R-4).",
+  "resultado": {
+    "codigo_salida": 1,
+    "regimenes": {
+      "ley_rd": {
+        "estado": "incompleto",
+        "decisiones": {},
+        "faltas_en_todas": [
+          "RD-11"
+        ],
+        "faltas_segun_lectura": [],
+        "avisos": []
+      },
+      "amlr": {
+        "estado": "completo",
+        "decisiones": {},
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [],
+        "avisos": []
+      },
+      "T-1": {
+        "estado": "completo",
+        "decisiones": {},
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [],
+        "avisos": []
+      },
+      "T-2": {
+        "estado": "indeterminado",
+        "decisiones": {
+          "DC": {
+            "DC-1": {
+              "estados": [
+                "incompleto"
+              ],
+              "depende_de": []
+            },
+            "DC-2": {
+              "estados": [
+                "completo"
+              ],
+              "depende_de": []
+            }
+          }
+        },
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [
+          "RD-11"
+        ],
+        "avisos": []
+      },
+      "T-3": {
+        "estado": "incompleto",
+        "decisiones": {},
+        "faltas_en_todas": [
+          "RD-11"
+        ],
+        "faltas_segun_lectura": [],
+        "avisos": []
+      }
+    }
+  }
+}

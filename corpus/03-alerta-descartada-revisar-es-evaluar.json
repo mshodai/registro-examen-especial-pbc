@@ -1,0 +1,88 @@
+{
+  "version_modelo": 1,
+  "sujeto": {
+    "actividad": "otra",
+    "operaciones_anuales": [
+      {
+        "anio": 2027,
+        "numero": 9500
+      }
+    ]
+  },
+  "personas": [
+    {
+      "id": "P-FICTICIO-1",
+      "cargos": [
+        "representante_servicio_ejecutivo",
+        "responsable_cumplimiento_normativo"
+      ]
+    },
+    {
+      "id": "P-FICTICIO-2",
+      "cargos": [
+        "miembro_organo_control_interno"
+      ]
+    },
+    {
+      "id": "P-FICTICIO-3",
+      "cargos": [
+        "miembro_organo_control_interno"
+      ]
+    },
+    {
+      "id": "P-FICTICIO-4",
+      "cargos": [
+        "otro"
+      ]
+    },
+    {
+      "id": "P-FICTICIO-5",
+      "cargos": [
+        "miembro_organo_control_interno"
+      ]
+    },
+    {
+      "id": "P-FICTICIO-6",
+      "cargos": [
+        "responsable_cumplimiento_normativo"
+      ]
+    },
+    {
+      "id": "P-FICTICIO-7",
+      "cargos": [
+        "miembro_organo_control_interno"
+      ]
+    }
+  ],
+  "sistemas": [
+    {
+      "id": "SIS-FICTICIO-A",
+      "declaracion_sistema_ia": "no"
+    }
+  ],
+  "participaciones_ia": [
+    {
+      "id": "IA-FICTICIO-1",
+      "sistema": "SIS-FICTICIO-A",
+      "momento": "generacion_alerta",
+      "fecha": "2028-05-09",
+      "salida": "SALIDA-FICTICIO-1",
+      "intervencion_humana": []
+    }
+  ],
+  "expediente": null,
+  "alerta_descartada": {
+    "id": "ALE-FICTICIO-03",
+    "participaciones_ia": [
+      "IA-FICTICIO-1"
+    ],
+    "descripcion_operativa": "Operación de ejemplo de un cliente ficticio",
+    "revision": {
+      "persona": "P-FICTICIO-4",
+      "fecha": "2028-05-10"
+    },
+    "fuentes": [],
+    "circunstancias_consideradas": [],
+    "resultado": null
+  }
+}

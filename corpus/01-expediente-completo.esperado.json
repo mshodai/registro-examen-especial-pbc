@@ -1,0 +1,44 @@
+{
+  "caso": "01-expediente-completo",
+  "demuestra": "Expediente de 2028 sin sistemas, con fases, fuentes, circunstancias, conclusión y razones, decidido por quien es a la vez representante ante el Servicio Ejecutivo y responsable del cumplimiento normativo, y comunicado con copia. Completo en los cinco regímenes y con todas las lecturas: código 0.",
+  "resultado": {
+    "codigo_salida": 0,
+    "regimenes": {
+      "ley_rd": {
+        "estado": "completo",
+        "decisiones": {},
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [],
+        "avisos": []
+      },
+      "amlr": {
+        "estado": "completo",
+        "decisiones": {},
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [],
+        "avisos": []
+      },
+      "T-1": {
+        "estado": "completo",
+        "decisiones": {},
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [],
+        "avisos": []
+      },
+      "T-2": {
+        "estado": "completo",
+        "decisiones": {},
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [],
+        "avisos": []
+      },
+      "T-3": {
+        "estado": "completo",
+        "decisiones": {},
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [],
+        "avisos": []
+      }
+    }
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "caso": "03-alerta-descartada-revisar-es-evaluar",
+  "demuestra": "Alerta generada por un sistema el 2028-05-09 y revisada y descartada al día siguiente, sin registrar fuentes, circunstancias ni resultado. La Ley y el RD no exigen registro. Con el AMLR depende de R-6: si revisar la alerta no es evaluar (AD-1), no es exigible; si lo es (AD-2), faltan la información, las circunstancias y el resultado del art. 77.1.b.",
+  "resultado": {
+    "codigo_salida": 1,
+    "regimenes": {
+      "ley_rd": {
+        "estado": "no_exigible",
+        "decisiones": {},
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [],
+        "avisos": []
+      },
+      "amlr": {
+        "estado": "indeterminado",
+        "decisiones": {
+          "AD": {
+            "AD-1": {
+              "estados": [
+                "no_exigible"
+              ],
+              "depende_de": []
+            },
+            "AD-2": {
+              "estados": [
+                "incompleto"
+              ],
+              "depende_de": []
+            }
+          }
+        },
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [
+          "AM-01",
+          "AM-02",
+          "AM-03",
+          "AM-04"
+        ],
+        "avisos": [
+          "D-9"
+        ]
+      },
+      "T-1": {
+        "estado": "indeterminado",
+        "decisiones": {
+          "AD": {
+            "AD-1": {
+              "estados": [
+                "no_exigible"
+              ],
+              "depende_de": []
+            },
+            "AD-2": {
+              "estados": [
+                "incompleto"
+              ],
+              "depende_de": []
+            }
+          }
+        },
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [
+          "AM-01",
+          "AM-02",
+          "AM-03",
+          "AM-04"
+        ],
+        "avisos": [
+          "D-9"
+        ]
+      },
+      "T-2": {
+        "estado": "indeterminado",
+        "decisiones": {
+          "AD": {
+            "AD-1": {
+              "estados": [
+                "no_exigible"
+              ],
+              "depende_de": []
+            },
+            "AD-2": {
+              "estados": [
+                "incompleto"
+              ],
+              "depende_de": []
+            }
+          }
+        },
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [
+          "AM-01",
+          "AM-02",
+          "AM-03",
+          "AM-04"
+        ],
+        "avisos": [
+          "D-9"
+        ]
+      },
+      "T-3": {
+        "estado": "indeterminado",
+        "decisiones": {
+          "AD": {
+            "AD-1": {
+              "estados": [
+                "no_exigible"
+              ],
+              "depende_de": []
+            },
+            "AD-2": {
+              "estados": [
+                "incompleto"
+              ],
+              "depende_de": []
+            }
+          }
+        },
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [
+          "AM-01",
+          "AM-02",
+          "AM-03",
+          "AM-04"
+        ],
+        "avisos": [
+          "D-9"
+        ]
+      }
+    }
+  }
+}

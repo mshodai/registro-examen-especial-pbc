@@ -1,0 +1,145 @@
+{
+  "version_modelo": 1,
+  "sujeto": {
+    "actividad": "otra",
+    "operaciones_anuales": [
+      {
+        "anio": 2027,
+        "numero": 9500
+      }
+    ]
+  },
+  "personas": [
+    {
+      "id": "P-FICTICIO-1",
+      "cargos": [
+        "representante_servicio_ejecutivo",
+        "responsable_cumplimiento_normativo"
+      ]
+    },
+    {
+      "id": "P-FICTICIO-2",
+      "cargos": [
+        "miembro_organo_control_interno"
+      ]
+    },
+    {
+      "id": "P-FICTICIO-3",
+      "cargos": [
+        "miembro_organo_control_interno"
+      ]
+    },
+    {
+      "id": "P-FICTICIO-4",
+      "cargos": [
+        "otro"
+      ]
+    },
+    {
+      "id": "P-FICTICIO-5",
+      "cargos": [
+        "miembro_organo_control_interno"
+      ]
+    },
+    {
+      "id": "P-FICTICIO-6",
+      "cargos": [
+        "responsable_cumplimiento_normativo"
+      ]
+    },
+    {
+      "id": "P-FICTICIO-7",
+      "cargos": [
+        "miembro_organo_control_interno"
+      ]
+    }
+  ],
+  "sistemas": [],
+  "participaciones_ia": [],
+  "expediente": {
+    "id": "EXP-FICTICIO-05",
+    "fecha_apertura": "2028-02-14",
+    "fecha_fin_analisis_tecnico": "2028-02-28",
+    "fecha_cierre": "2028-03-10",
+    "origen": {
+      "tipo": "otro",
+      "descripcion": "Motivo de ejemplo que dio lugar al examen (inventado)",
+      "participaciones_ia": [],
+      "expediente_devuelto": null
+    },
+    "participaciones_incorporadas": [],
+    "operativa_analizada": {
+      "descripcion": "Operativa de ejemplo de un cliente ficticio",
+      "operaciones": [
+        {
+          "id": "OP-FICTICIO-1",
+          "descripcion": "Operación de ejemplo",
+          "ejecutada": true
+        }
+      ],
+      "intervinientes": [
+        {
+          "id": "INT-FICTICIO-1",
+          "papel": "cliente"
+        }
+      ]
+    },
+    "fuentes": [
+      {
+        "id": "F-FICTICIO-1",
+        "descripcion": "Documentación de ejemplo del cliente ficticio",
+        "ambito": "sujeto_obligado"
+      }
+    ],
+    "fases": [
+      {
+        "id": "FA-FICTICIO-1",
+        "descripcion": "Fase de análisis de ejemplo 1",
+        "gestiones": [
+          "Gestión de ejemplo 1"
+        ],
+        "fuentes": [
+          "F-FICTICIO-1"
+        ],
+        "participaciones_ia": []
+      }
+    ],
+    "circunstancias_consideradas": [
+      {
+        "id": "C-FICTICIO-1",
+        "descripcion": "Circunstancia de ejemplo 1 (motivo inventado)",
+        "fuentes": [
+          "F-FICTICIO-1"
+        ],
+        "participaciones_ia": []
+      }
+    ],
+    "conclusion": {
+      "texto": "Conclusión de ejemplo (motivo inventado)",
+      "razones": [
+        {
+          "descripcion": "Razón de ejemplo (motivo inventado)",
+          "circunstancias": [
+            "C-FICTICIO-1"
+          ]
+        }
+      ]
+    },
+    "decision_comunicacion": {
+      "comunicar": true,
+      "fecha": "2028-03-03",
+      "motivacion": "Motivación de ejemplo de la decisión",
+      "decisor": {
+        "tipo": "persona",
+        "persona": "P-FICTICIO-6",
+        "votos": null
+      },
+      "comunicacion": {
+        "fecha": "2028-03-06",
+        "referencia_copia": "DOC-FICTICIO-05"
+      },
+      "fecha_puesta_en_conocimiento_comunicante": null
+    }
+  },
+  "alerta_descartada": null
+}

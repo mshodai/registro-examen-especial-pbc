@@ -1,0 +1,131 @@
+{
+  "caso": "06-abstencion-en-el-organo-de-control-interno",
+  "demuestra": "Expediente de 2026 decidido por el órgano de control interno con dos votos a favor de comunicar, uno en contra y una abstención. Si las abstenciones no cuentan (MA-1) hay mayoría; si cuentan (MA-2), no (R-8). Antes del 10 de julio de 2027, T-1 a T-3 son la Ley y el RD. El AMLR se calcula como comparación.",
+  "resultado": {
+    "codigo_salida": 1,
+    "regimenes": {
+      "ley_rd": {
+        "estado": "indeterminado",
+        "decisiones": {
+          "MA": {
+            "MA-1": {
+              "estados": [
+                "completo"
+              ],
+              "depende_de": []
+            },
+            "MA-2": {
+              "estados": [
+                "incompleto"
+              ],
+              "depende_de": []
+            }
+          }
+        },
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [
+          "RD-13"
+        ],
+        "avisos": []
+      },
+      "amlr": {
+        "estado": "indeterminado",
+        "decisiones": {
+          "DC": {
+            "DC-1": {
+              "estados": [
+                "completo"
+              ],
+              "depende_de": []
+            },
+            "DC-2": {
+              "estados": [
+                "incompleto"
+              ],
+              "depende_de": []
+            }
+          }
+        },
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [
+          "AM-07"
+        ],
+        "avisos": [
+          "D-23"
+        ]
+      },
+      "T-1": {
+        "estado": "indeterminado",
+        "decisiones": {
+          "MA": {
+            "MA-1": {
+              "estados": [
+                "completo"
+              ],
+              "depende_de": []
+            },
+            "MA-2": {
+              "estados": [
+                "incompleto"
+              ],
+              "depende_de": []
+            }
+          }
+        },
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [
+          "RD-13"
+        ],
+        "avisos": []
+      },
+      "T-2": {
+        "estado": "indeterminado",
+        "decisiones": {
+          "MA": {
+            "MA-1": {
+              "estados": [
+                "completo"
+              ],
+              "depende_de": []
+            },
+            "MA-2": {
+              "estados": [
+                "incompleto"
+              ],
+              "depende_de": []
+            }
+          }
+        },
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [
+          "RD-13"
+        ],
+        "avisos": []
+      },
+      "T-3": {
+        "estado": "indeterminado",
+        "decisiones": {
+          "MA": {
+            "MA-1": {
+              "estados": [
+                "completo"
+              ],
+              "depende_de": []
+            },
+            "MA-2": {
+              "estados": [
+                "incompleto"
+              ],
+              "depende_de": []
+            }
+          }
+        },
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [
+          "RD-13"
+        ],
+        "avisos": []
+      }
+    }
+  }
+}

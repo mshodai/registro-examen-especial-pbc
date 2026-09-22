@@ -1,0 +1,144 @@
+{
+  "caso": "08-comunicacion-interna-con-alerta-incorporada",
+  "demuestra": "Expediente de 2028 abierto por la comunicación interna de un empleado, al que después se suma una alerta generada por un sistema sobre la misma operativa. Se informa al comunicante de la decisión. Con la Ley y el RD está completo. Con el AMLR, la alerta incorporada no figura en ninguna circunstancia: falta AM-04 solo si toda salida es información considerada (SC-1), porque ninguna fase la usó.",
+  "resultado": {
+    "codigo_salida": 1,
+    "regimenes": {
+      "ley_rd": {
+        "estado": "completo",
+        "decisiones": {},
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [],
+        "avisos": []
+      },
+      "amlr": {
+        "estado": "indeterminado",
+        "decisiones": {
+          "SC": {
+            "SC-1": {
+              "estados": [
+                "incompleto"
+              ],
+              "depende_de": []
+            },
+            "SC-2": {
+              "estados": [
+                "completo"
+              ],
+              "depende_de": []
+            },
+            "SC-3": {
+              "estados": [
+                "completo"
+              ],
+              "depende_de": []
+            }
+          }
+        },
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [
+          "AM-04"
+        ],
+        "avisos": [
+          "D-9"
+        ]
+      },
+      "T-1": {
+        "estado": "indeterminado",
+        "decisiones": {
+          "SC": {
+            "SC-1": {
+              "estados": [
+                "incompleto"
+              ],
+              "depende_de": []
+            },
+            "SC-2": {
+              "estados": [
+                "completo"
+              ],
+              "depende_de": []
+            },
+            "SC-3": {
+              "estados": [
+                "completo"
+              ],
+              "depende_de": []
+            }
+          }
+        },
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [
+          "AM-04"
+        ],
+        "avisos": [
+          "D-9"
+        ]
+      },
+      "T-2": {
+        "estado": "indeterminado",
+        "decisiones": {
+          "SC": {
+            "SC-1": {
+              "estados": [
+                "incompleto"
+              ],
+              "depende_de": []
+            },
+            "SC-2": {
+              "estados": [
+                "completo"
+              ],
+              "depende_de": []
+            },
+            "SC-3": {
+              "estados": [
+                "completo"
+              ],
+              "depende_de": []
+            }
+          }
+        },
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [
+          "AM-04"
+        ],
+        "avisos": [
+          "D-9"
+        ]
+      },
+      "T-3": {
+        "estado": "indeterminado",
+        "decisiones": {
+          "SC": {
+            "SC-1": {
+              "estados": [
+                "incompleto"
+              ],
+              "depende_de": []
+            },
+            "SC-2": {
+              "estados": [
+                "completo"
+              ],
+              "depende_de": []
+            },
+            "SC-3": {
+              "estados": [
+                "completo"
+              ],
+              "depende_de": []
+            }
+          }
+        },
+        "faltas_en_todas": [],
+        "faltas_segun_lectura": [
+          "AM-04"
+        ],
+        "avisos": [
+          "D-9"
+        ]
+      }
+    }
+  }
+}
