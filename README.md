@@ -177,6 +177,10 @@ El borrador de la Comisión no define ningún requisito ni ninguna lectura. Se c
 - [plazos-conservacion-pbc](https://github.com/mshodai/plazos-conservacion-pbc): calcula el estado de conservación de la documentación bajo la Ley 10/2010 y el AMLR.
 - [plazos-actualizacion-pbc](https://github.com/mshodai/plazos-actualizacion-pbc): calcula la próxima revisión obligatoria de la información de un cliente bajo el RD 304/2014 y el AMLR.
 
+## Licencia
+
+MIT; el texto completo está en [LICENSE](LICENSE). Cubre el código y la documentación de este repositorio, no los documentos de `docs/fuentes/`, que no se incluyen.
+
 ---
 
 Es una implementación de referencia, probada sobre datos sintéticos. No es software de cumplimiento normativo y no constituye asesoramiento jurídico.
