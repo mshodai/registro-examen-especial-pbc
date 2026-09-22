@@ -9,6 +9,9 @@ description = "Comprueba si el registro de un examen especial de prevención del
 license = "MIT"
 requires-python = ">=3.11"
 
+[project.scripts]
+registro-examen-especial = "registro.cli:main"
+
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
