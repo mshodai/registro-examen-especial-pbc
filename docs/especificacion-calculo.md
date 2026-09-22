@@ -266,6 +266,12 @@ La declaración sobre el sistema no cambia AM-06 ([D-18]): un sistema declarado 
 
 Los demás requisitos no se contradicen: uno pide más datos que el otro, y se pueden dar los dos. En particular, el RD no impide registrar circunstancias ni conservar la copia de la comunicación.
 
+**La conservación no es un requisito de este cálculo.** Entre el RD y el AMLR hay una divergencia sobre cuánto tiempo se guarda el registro:
+- RD, art. 25.4: «Los sujetos obligados conservarán los expedientes de examen especial durante el plazo de diez años».
+- AMLR, art. 77.3: la información «se conservará durante un período de cinco años», y «Sin perjuicio de los períodos de conservación de los datos recogidos a efectos de otros actos jurídicos de la Unión o del Derecho nacional que cumplan el Reglamento (UE) 2016/679, las entidades obligadas suprimirán los datos personales al expirar el período de cinco años».
+
+Si la conservación fuera un requisito, T-2 y T-3 tendrían que resolver esa divergencia, y D-21 no la recogería. No lo es: los requisitos de §3 y §4 son sobre **qué consta** en el registro cuando se hace, y la conservación es sobre **hasta cuándo** debe existir, algo que depende de una fecha de referencia que este cálculo no tiene. Además, que haya contradicción depende de si el art. 25.4 del RD es un período de «Derecho nacional» de los que el art. 77.3 deja a salvo, que tampoco está resuelto. La conservación queda fuera de alcance (§10). Ese cálculo, con esa divergencia y sus lecturas, está en `plazos-conservacion-pbc` (casos S-4, inicio del plazo del examen especial; S-1, paso de la Ley al AMLR; y S-9, plazos nacionales más largos después del AMLR).
+
 Notas:
 - **Alerta descartada.** Con fecha < A, los tres dan `no_exigible` (`ley_rd`). Con fecha ≥ A, los tres dan el resultado de `amlr`, porque `ley_rd` no exige nada (§3.3): la suma de nada y los requisitos de AD es AD.
 - **Antes de A**, los tres son `ley_rd`. Se calculan igual ([D-1]) y la comparación dice que coinciden.
@@ -460,7 +466,13 @@ El informe empieza con la advertencia de que es un cálculo bajo las lecturas qu
 | 1 | La entrada es válida y alguna combinación de algún régimen da `incompleto`. |
 | 2 | La entrada no es válida (modelo, §13), el fichero no se puede leer, o la orden se usa mal. |
 
-**[D-25]** El código responde a «¿le falta algo al registro con alguna norma y alguna lectura?». Un `indeterminado` entre `completo` y `no_exigible` da 0 (ejemplo 2): en ninguna lectura falta nada. La alternativa, dar 1 por cualquier `indeterminado` como en `plazos-actualizacion-pbc`, marcaría como defectuosa toda alerta descartada bien registrada, solo porque R-6 no está resuelto.
+**[D-25] El código 1 señala que alguna lectura exige actuar.** Aquí, actuar es completar el registro, y la única lectura que lo exige es la que da `incompleto`. Por eso:
+- Un `indeterminado` entre `completo` y `no_exigible` da 0 (ejemplo 2): ninguna lectura exige hacer nada.
+- Un registro `incompleto` en todas las lecturas da 1, aunque su estado no sea dudoso.
+
+Dar 1 por cualquier `indeterminado` marcaría como defectuosa toda alerta descartada bien registrada, solo porque R-6 no está resuelto.
+
+**No es el mismo criterio que `plazos-actualizacion-pbc`.** Allí, D-38 da 1 cuando los regímenes dan estados distintos o alguno es `indeterminado`, y 0 cuando todos coinciden, y dice que el código sirve para «avisar de que el estado en la fecha de referencia no está claro». Con ese criterio, un cliente `vencida` en los seis regímenes da 0 aunque haya que revisarlo, y aquí un registro `incompleto` en los cinco da 1. Los dos criterios coinciden cuando un `indeterminado` mezcla un estado que exige actuar con otro que no. Esta especificación no adopta el de D-38 porque, en un registro, lo útil es saber si falta algo, no si las normas coinciden. La comparación entre regímenes está en el informe ([D-26]).
 
 ---
 
@@ -468,7 +480,7 @@ El informe empieza con la advertencia de que es un cálculo bajo las lecturas qu
 
 - Ordenar varios registros y comprobar el registro cronológico del RD, art. 25.3 (modelo, §2).
 - Comprobar que las decisiones responden a «criterios homogéneos» (RD, art. 25.2), que exige comparar expedientes.
-- Los plazos de conservación (RD, art. 25.4; AMLR, art. 77.3), que son de `plazos-conservacion-pbc`.
+- Los plazos de conservación y la supresión (RD, art. 25.4: diez años; AMLR, art. 77.3: cinco años y supresión de los datos personales), y la divergencia entre ellos, que calcula `plazos-conservacion-pbc` ([D-21]).
 - Cualquier requisito del AI Act (modelo, §11).
 
 ---
@@ -497,9 +509,9 @@ El informe empieza con la advertencia de que es un cálculo bajo las lecturas qu
 | D-18 | La declaración sobre el sistema no cambia ningún requisito; R-5 no es dimensión. | §2.3 |
 | D-19 | DC-1 el AMLR no dice quién decide; DC-2 decide el responsable del cumplimiento normativo. | §4.2 |
 | D-20 | Alerta descartada: `no_exigible` con `ley_rd`; con `amlr`, AD-1 `no_exigible` y AD-2 AM-01 a AM-04. | §3.3, §4.5 |
-| D-21 | T-1 desplazamiento; T-2 suma con prevalencia del AMLR; T-3 suma. Solo se contradicen en el decisor con DC-2. | §5.2 |
+| D-21 | T-1 desplazamiento; T-2 suma con prevalencia del AMLR; T-3 suma. Solo se contradicen en el decisor con DC-2. La conservación no es un requisito: fuera de alcance, en `plazos-conservacion-pbc`. | §5.2 |
 | D-22 | Expediente que abarca A: FT-1 la apertura, FT-2 el cierre. | §5.3 |
 | D-23 | `amlr` en cualquier fecha, con aviso si el registro es anterior a A o la abarca. | §4.6 |
 | D-24 | Umbral del RD, art. 23: dato informativo, con OA-1 el año anterior y OA-2 el del registro. | §2.2 |
-| D-25 | Código 1 si alguna combinación da `incompleto`. | §9.1 |
+| D-25 | El código 1 señala que alguna lectura exige actuar: alguna combinación da `incompleto`. No es el criterio de D-38 de `plazos-actualizacion-pbc`. | §9.1 |
 | D-26 | Se comparan T-1 a T-3 y `ley_rd` con `amlr`; coinciden si dan el mismo estado y las mismas faltas. | §5.2 |
