@@ -20,7 +20,7 @@ Hay tres grupos:
   - En la normativa de prevención del blanqueo, es la de la descarga original en `calculo-titularidad-real`, tal como la recoge el `FUENTES.md` de `plazos-actualizacion-pbc`. Las copias de este repositorio se crearon el 2026-09-22.
   - En los otros tres documentos, es la fecha en que el fichero se añadió a este repositorio (`kMDItemDateAdded`: 2026-09-22). Los metadatos de origen de macOS (`kMDItemWhereFroms`) solo guardan el dominio (`https://www.boe.es/`, `https://eur-lex.europa.eu/`, `https://digital-strategy.ec.europa.eu/`), no la URL completa.
 - **URL.**
-  - En la normativa de prevención del blanqueo, se copian de `plazos-actualizacion-pbc`, donde se explica cuáles se comprobaron: las del BOE devolvieron un fichero idéntico al local; la de EUR-Lex **no se ha podido comprobar**. En este repositorio no se han vuelto a comprobar.
+  - En la normativa de prevención del blanqueo, se copian de `plazos-actualizacion-pbc`. Todas se comprobaron por descarga el 22/09/2026: cada una devolvió un fichero idéntico al local (mismo SHA-256), también la de EUR-Lex. EUR-Lex rechaza a veces las descargas automáticas: responde `202` con un cuerpo vacío. Por eso, en la primera comprobación, el 2026-09-15, su URL no se pudo comprobar, y el 22/09/2026 hicieron falta varios intentos.
   - En los otros tres documentos, se da la página de referencia y, si se ha localizado, el enlace de descarga del PDF. Lo comprobado el 2026-09-22 se indica en cada fila.
 
 ## Documentos
