@@ -1,6 +1,6 @@
 # Modelo de datos de entrada
 
-Este documento define el JSON que describe **un examen especial** (Ley 10/2010 y RD 304/2014) **o una evaluación de las operaciones o actividades de un cliente** (AMLR, art. 69.2) en la que puede haber participado un sistema de IA. Un registro puede ser también **una alerta revisada y descartada sin abrir examen especial** (§10): en España no genera expediente, y en el AMLR puede ser, según la lectura, una evaluación del art. 69.2 que hay que registrar ([R-6](#r-6)). Solo describe la entrada. Todavía no hay especificación del cálculo ni código.
+Este documento define el JSON que describe **un examen especial** (Ley 10/2010 y RD 304/2014) **o una evaluación de las operaciones o actividades de un cliente** (AMLR, art. 69.2) en la que puede haber participado un sistema de IA. Un registro puede ser también **una alerta revisada y descartada sin abrir examen especial** (§10): en España no genera expediente, y en el AMLR puede ser, según la lectura, una evaluación del art. 69.2 que hay que registrar ([R-6](#r-6)). Solo describe la entrada. Qué se comprueba con ella está en [`especificacion-calculo.md`](especificacion-calculo.md). Todavía no hay código.
 
 Siglas y fuentes (detalle y huellas en [`fuentes/FUENTES.md`](fuentes/FUENTES.md)):
 
@@ -14,7 +14,7 @@ Convenciones:
 
 - Las citas van entre comillas «» y son literales. Las del borrador de la Comisión están en inglés, el único idioma en que se publicó, con una traducción propia entre corchetes.
 - **[Decisión propia]** marca lo que no sale de los textos, sino del diseño de este proyecto.
-- Los casos que la norma no resuelve (R-1 a R-10) están en el §14. El modelo no los decide: recoge los hechos que hacen falta para aplicar cada lectura.
+- Los casos que la norma no resuelve (R-1 a R-11) están en el §14. El modelo no los decide: recoge los hechos que hacen falta para aplicar cada lectura.
 - Los términos siguen a cada texto: «examen especial», «Servicio Ejecutivo de la Comisión» y «comunicación por indicio» en la Ley y el RD; «evaluación», «UIF» y «comunicación de sospechas» en el AMLR. El modelo usa `expediente` y `decision_comunicacion` para los dos, y `alerta_descartada` para la alerta que no llegó a examen. **[Decisión propia]**
 
 ---
@@ -818,3 +818,18 @@ Con las dos lecturas y con la Ley y el RD, la entrada recoge que la alerta se re
 **Por qué no determina un comportamiento único.** El art. 35.1 no dice qué funciones pueden ejercer las personas autorizadas. Puede leerse que actúan en todo lo que corresponde al representante, incluida la decisión del art. 25.2, o que solo le asisten.
 
 **Qué hace el modelo.** Recoge el cargo `persona_autorizada_por_el_representante` (§2.2), de modo que se vea cuándo decidió una persona autorizada y no el representante.
+
+<a id="r-11"></a>
+### R-11. ¿Qué fecha decide la norma de un expediente abierto antes del 10 de julio de 2027 y cerrado después?
+
+**Régimen.** Los regímenes de transición de la especificación (T-1 a T-3), para un expediente con `fecha_apertura` anterior a la fecha de aplicación del AMLR y `fecha_cierre` igual o posterior.
+
+**Qué dice la norma.**
+- AMLR, art. 90: «Será aplicable a partir del 10 de julio de 2027».
+- RD, art. 25.3: el registro recoge las fechas de apertura y cierre de «cada expediente de examen especial realizado». AMLR, art. 77.1.b: «un registro de la evaluación realizada».
+- Ningún texto tiene una regla transitoria para los exámenes en curso ese día.
+
+**Por qué no determina un comportamiento único.** El examen puede regirse por la norma con que empezó, o por la vigente cuando se concluye y se registra («la evaluación realizada», «cada expediente [...] realizado»).
+
+**Qué hace el modelo.** Recoge las dos fechas (§3). La especificación calcula las dos lecturas (FT-1, la apertura; FT-2, el cierre).
+
